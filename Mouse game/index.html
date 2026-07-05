@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mouse Master | Year 1 Computing</title>
+  <style>
+    :root {
+      /* Core colours - bright, friendly, and easy for Year 1 pupils to read. */
+      --sky-1: #f7fdff;
+      --sky-2: #e8f8ff;
+      --panel: rgba(255, 255, 255, 0.92);
+      --panel-strong: #ffffff;
+      --ink: #14324a;
+      --muted: #537089;
+      --blue: #2f80ed;
+      --blue-dark: #1859b5;
+      --gold: #f7b500;
+      --gold-dark: #cc8a00;
+      --green: #22b573;
+      --green-dark: #14865b;
+      --pink: #ff6fae;
+      --pink-dark: #d84986;
+      --orange: #ff8a3d;
+      --orange-dark: #df6713;
+      --purple: #8c6cff;
+      --purple-dark: #6247d4;
+      --red: #ff5a68;
+      --line: rgba(20, 50, 74, 0.12);
+      --shadow: 0 14px 30px rgba(20, 50, 74, 0.14);
+      --shadow-soft: 0 8px 16px rgba(20, 50, 74, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max-width: 1280px;
+      --focus: 0 0 0 4px rgba(47, 128, 237, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Verdana", "Arial", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 32%),
+        radial-gradient(circle at top right, rgba(255, 239, 191, 0.65), transparent 24%),
+        linear-gradient(180deg, var(--sky-1), var(--sky-2));
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      background-image:
+        radial-gradient(rgba(47, 128, 237, 0.08) 2px, transparent 2px),
+        radial-gradient(rgba(255, 138, 61, 0.08) 2px, transparent 2px);
+      background-size: 54px 54px, 72px 72px;
+      background-position: 0 0, 18px 18px;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    [tabindex]:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    .app {
+      width: min(calc(100% - 24px), var(--max-width));
+      margin: 0 auto;
+      padding: 16px 0 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.88));
+      border: 2px solid rgba(47, 128, 237, 0.10);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: floatIn 700ms ease-out both;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(247, 181, 0, 0.25), transparent 64%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      color: var(--blue-dark);
+      text-wrap: balance;
+    }
+
+    .title-block .mission-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(47, 128, 237, 0.12), rgba(255, 138, 61, 0.12));
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .title-block p {
+      margin: 12px 0 0;
+      max-width: 64ch;
+      font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .objective-card {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(47, 128, 237, 0.12), rgba(34, 181, 115, 0.10));
+      border: 1px solid rgba(47, 128, 237, 0.14);
+    }
+
+    .objective-card h2,
+    .panel h2,
+    .section-title {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(1.15rem, 2vw, 1.7rem);
+      line-height: 1.1;
+    }
+
+    .objective-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .objective-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .check-bullet {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--green), var(--green-dark));
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stat .label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat .value {
+      font-size: clamp(1.35rem, 2vw, 1.9rem);
+      font-weight: 900;
+      color: var(--blue-dark);
+    }
+
+    .progress-wrap {
+      margin-top: 18px;
+      padding: 14px 16px 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      font-weight: 800;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .progress {
+      position: relative;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(20, 50, 74, 0.08);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--orange), var(--gold), var(--green));
+      transition: width 350ms ease;
+    }
+
+    .mission-shell {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 18px;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 2px solid rgba(20, 50, 74, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .mission-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .mission-card {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 2px solid rgba(20, 50, 74, 0.08);
+      box-shadow: var(--shadow-soft);
+      text-align: left;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .mission-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .mission-card.active {
+      border-color: rgba(47, 128, 237, 0.38);
+      background: linear-gradient(180deg, rgba(47, 128, 237, 0.10), rgba(255,255,255,0.98));
+    }
+
+    .mission-num {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.15rem;
+      background: linear-gradient(180deg, var(--blue), var(--blue-dark));
+      box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .mission-card:nth-child(2) .mission-num { background: linear-gradient(180deg, var(--pink), var(--pink-dark)); }
+    .mission-card:nth-child(3) .mission-num { background: linear-gradient(180deg, var(--orange), var(--orange-dark)); }
+    .mission-card:nth-child(4) .mission-num { background: linear-gradient(180deg, var(--green), var(--green-dark)); }
+    .mission-card:nth-child(5) .mission-num { background: linear-gradient(180deg, var(--gold), var(--gold-dark)); }
+    .mission-card:nth-child(6) .mission-num { background: linear-gradient(180deg, var(--purple), var(--purple-dark)); }
+
+    .mission-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.1rem;
+    }
+
+    .mission-card span {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.35;
+    }
+
+    .activity-area {
+      position: relative;
+      min-height: 760px;
+      overflow: hidden;
+    }
+
+    .activity-panel {
+      display: none;
+      animation: popIn 320ms ease-out both;
+    }
+
+    .activity-panel.active {
+      display: block;
+    }
+
+    .activity-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .activity-top p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 1rem;
+    }
+
+    .activity-stars {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .mini-star {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.12);
+    }
+
+    .stage {
+      position: relative;
+      min-height: 610px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,253,255,0.92));
+      border: 2px dashed rgba(47, 128, 237, 0.16);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(47, 128, 237, 0.10);
+      color: var(--blue-dark);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .status-pill.good {
+      background: rgba(34, 181, 115, 0.12);
+      color: var(--green-dark);
+    }
+
+    .status-pill.warn {
+      background: rgba(255, 138, 61, 0.12);
+      color: var(--orange-dark);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .btn {
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-weight: 900;
+      font-size: 1.05rem;
+      color: #fff;
+      background: linear-gradient(180deg, var(--blue), var(--blue-dark));
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,0.12), var(--shadow-soft);
+      transition: transform 140ms ease, filter 140ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.02);
+    }
+
+    .btn.secondary {
+      background: linear-gradient(180deg, var(--orange), var(--orange-dark));
+    }
+
+    .btn.ghost {
+      color: var(--ink);
+      background: rgba(20, 50, 74, 0.06);
+    }
+
+    .btn.green {
+      background: linear-gradient(180deg, var(--green), var(--green-dark));
+    }
+
+    .btn.purple {
+      background: linear-gradient(180deg, var(--purple), var(--purple-dark));
+    }
+
+    /* Activity 1 */
+    .star-field {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .floating-star {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.15);
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,0.10), 0 10px 16px rgba(0,0,0,0.10);
+      animation: bob 1.8s ease-in-out infinite;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .floating-star:nth-child(odd) { animation-duration: 2.1s; }
+
+    /* Activity 2 */
+    .chest-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .chest {
+      min-height: 140px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffd48f, #ffb84f);
+      border: 3px solid rgba(20, 50, 74, 0.10);
+      position: relative;
+      font-size: 4rem;
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 -8px 0 rgba(0,0,0,0.12), var(--shadow-soft);
+      transition: transform 120ms ease;
+    }
+
+    .chest:hover {
+      transform: translateY(-2px);
+    }
+
+    .chest.open {
+      background: linear-gradient(180deg, #fff2b8, #ffe18a);
+    }
+
+    .chest .label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      text-align: center;
+      font-size: 1rem;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    /* Activity 3 */
+    .drag-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 14px;
+    }
+
+    .object-bank,
+    .drop-bank {
+      min-height: 440px;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(20, 50, 74, 0.09);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .object-bank h3,
+    .drop-bank h3,
+    .paint-panel h3,
+    .quiz-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      color: var(--blue-dark);
+    }
+
+    .draggables {
+      display: grid;
+      gap: 12px;
+    }
+
+    .draggable {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 74px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fff, #f3fbff);
+      border: 2px solid rgba(47, 128, 237, 0.16);
+      box-shadow: var(--shadow-soft);
+      font-size: 1.1rem;
+      font-weight: 800;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .draggable[draggable="true"] {
+      cursor: grab;
+    }
+
+    .draggable.dragging {
+      opacity: 0.5;
+    }
+
+    .drop-zone-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .drop-zone {
+      min-height: 84px;
+      padding: 14px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(244,250,255,0.98));
+      border: 3px dashed rgba(47, 128, 237, 0.20);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .drop-zone.good {
+      border-style: solid;
+      border-color: rgba(34, 181, 115, 0.35);
+      background: linear-gradient(180deg, rgba(34, 181, 115, 0.10), rgba(255,255,255,0.98));
+    }
+
+    .drop-zone .slot {
+      display: grid;
+      place-items: center;
+      min-width: 84px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      background: rgba(47, 128, 237, 0.08);
+      color: var(--blue-dark);
+    }
+
+    /* Activity 4 */
+    .path-stage {
+      position: relative;
+      min-height: 530px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255, 220, 116, 0.30), transparent 18%),
+        radial-gradient(circle at 82% 22%, rgba(34, 181, 115, 0.18), transparent 20%),
+        linear-gradient(180deg, #f9fffc, #eff9ff);
+      border: 2px solid rgba(20, 50, 74, 0.08);
+      overflow: hidden;
+    }
+
+    .path-hint {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      z-index: 2;
+      max-width: 430px;
+    }
+
+    .path-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .guide-bug {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff 0 10%, #ff5a68 11% 100%);
+      color: #fff;
+      font-size: 1.8rem;
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,0.12), var(--shadow-soft);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .path-target {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 4px solid rgba(34, 181, 115, 0.5);
+      background: rgba(255,255,255,0.72);
+      transform: translate(-50%, -50%);
+    }
+
+    .path-target.done {
+      background: rgba(34, 181, 115, 0.95);
+      border-color: rgba(34, 181, 115, 0.9);
+    }
+
+    .path-stage.complete {
+      border-color: rgba(34, 181, 115, 0.35);
+    }
+
+    /* Activity 5 */
+    .paint-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .paint-panel,
+    .canvas-shell {
+      border-radius: 24px;
+      background: rgba(255,255,255,0.92);
+      border: 2px solid rgba(20, 50, 74, 0.09);
+      box-shadow: var(--shadow-soft);
+      padding: 14px;
+    }
+
+    .challenge-card {
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255, 138, 61, 0.10), rgba(47, 128, 237, 0.08));
+      border: 2px solid rgba(255, 138, 61, 0.14);
+      min-height: 180px;
+    }
+
+    .challenge-card p {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    .tool-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tool-row .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .swatch {
+      height: 42px;
+      border-radius: 14px;
+      border: 3px solid rgba(255,255,255,0.8);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .swatch.active::after {
+      content: "✓";
+      position: absolute;
+      inset: auto 6px 6px auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      color: var(--green-dark);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 0.9rem;
+    }
+
+    .canvas-shell {
+      display: grid;
+      gap: 12px;
+    }
+
+    .canvas-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .canvas-wrap {
+      position: relative;
+      min-height: 450px;
+      border-radius: 22px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255, 240, 170, 0.55), transparent 15%),
+        linear-gradient(180deg, #ffffff, #f7fbff);
+      border: 2px solid rgba(47, 128, 237, 0.14);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 450px;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .canvas-note {
+      position: absolute;
+      inset: auto 12px 12px auto;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 800;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Activity 6 */
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .quiz-card {
+      min-height: 420px;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.92);
+      border: 2px solid rgba(20, 50, 74, 0.09);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .quiz-question {
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(47, 128, 237, 0.09), rgba(255,255,255,0.94));
+      border: 1px solid rgba(47, 128, 237, 0.12);
+      min-height: 110px;
+    }
+
+    .quiz-question p {
+      margin: 0;
+      font-size: 1.22rem;
+      line-height: 1.4;
+      font-weight: 900;
+    }
+
+    .answer-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .answer {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.95);
+      border: 2px solid rgba(20, 50, 74, 0.10);
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-align: left;
+      transition: transform 120ms ease, background 120ms ease;
+    }
+
+    .answer:hover {
+      transform: translateY(-1px);
+    }
+
+    .answer.correct {
+      background: rgba(34, 181, 115, 0.12);
+      border-color: rgba(34, 181, 115, 0.35);
+    }
+
+    .answer.wrong {
+      background: rgba(255, 90, 104, 0.10);
+      border-color: rgba(255, 90, 104, 0.25);
+    }
+
+    .feedback {
+      margin-top: 12px;
+      min-height: 72px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(20, 50, 74, 0.05);
+      font-size: 1.05rem;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    /* Completion */
+    .completion {
+      display: none;
+      margin-top: 18px;
+      padding: 26px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,250,233,0.96));
+      border: 2px solid rgba(247, 181, 0, 0.22);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .completion.active {
+      display: block;
+      animation: popIn 360ms ease-out both;
+    }
+
+    .completion-grid {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .badge {
+      width: 240px;
+      height: 240px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff8cf 0 18%, #ffd24a 19% 46%, #ffac2d 47% 100%);
+      box-shadow: inset 0 -10px 0 rgba(0,0,0,0.10), var(--shadow);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .badge::before,
+    .badge::after {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 110px;
+      bottom: -72px;
+      background: linear-gradient(180deg, #ff7b7b, #e24d4d);
+      clip-path: polygon(50% 0, 100% 100%, 50% 76%, 0 100%);
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,0.08));
+    }
+
+    .badge::before { left: 28px; transform: rotate(-10deg); }
+    .badge::after { right: 28px; transform: rotate(10deg); }
+
+    .badge-inner {
+      text-align: center;
+      padding: 18px;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .badge-inner .icon {
+      font-size: 3.6rem;
+      display: block;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .badge-inner .name {
+      font-size: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .badge-inner .sub {
+      display: block;
+      margin-top: 8px;
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .confetti {
+      position: fixed;
+      top: -12px;
+      width: 12px;
+      height: 18px;
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall linear forwards;
+    }
+
+    .teacher-notes {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(20, 50, 74, 0.08);
+      box-shadow: var(--shadow-soft);
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .teacher-notes h2 {
+      color: var(--ink);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translate3d(0, -18px, 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); opacity: 0.95; }
+    }
+
+    @media (max-width: 1120px) {
+      .hero-grid,
+      .mission-shell,
+      .paint-layout,
+      .completion-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .activity-area {
+        min-height: auto;
+      }
+
+      .drag-layout,
+      .quiz-grid,
+      .chest-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .app {
+        width: min(calc(100% - 16px), var(--max-width));
+        padding-top: 8px;
+      }
+
+      .hero,
+      .panel,
+      .completion,
+      .teacher-notes {
+        border-radius: 22px;
+      }
+
+      .stats-bar,
+      .drag-layout,
+      .quiz-grid,
+      .chest-grid,
+      .paint-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .mission-shell {
+        gap: 14px;
+      }
+
+      .stage {
+        min-height: 540px;
+        padding: 14px;
+      }
+
+      canvas {
+        height: 380px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-grid">
+        <div class="title-block">
+          <div class="mission-tag">Mission 3 of 3 • Year 1 Technology Around Us</div>
+          <h1 id="page-title">🖱️ Mouse Master</h1>
+          <p>
+            The Mouse Masters need your help! Complete all the mouse challenges to earn your Mouse Master Badge.
+          </p>
+          <div class="stats-bar" aria-label="Mission summary">
+            <div class="stat">
+              <span class="label">Lesson objective</span>
+              <span class="value">Use a mouse in different ways</span>
+            </div>
+            <div class="stat">
+              <span class="label">Mission badge</span>
+              <span class="value">🏅 Mouse Master</span>
+            </div>
+            <div class="stat">
+              <span class="label">Best effort</span>
+              <span class="value">20–25 minutes</span>
+            </div>
+          </div>
+        </div>
+        <div class="objective-card">
+          <h2>Success criteria</h2>
+          <ul class="objective-list">
+            <li><span class="check-bullet">1</span><span>I can use a mouse to open a program.</span></li>
+            <li><span class="check-bullet">2</span><span>I can click and drag to move objects.</span></li>
+            <li><span class="check-bullet">3</span><span>I can use a mouse to create a simple picture.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="progress-wrap" aria-live="polite">
+        <div class="progress-head">
+          <span>Mission progress</span>
+          <span id="progressText">0 / 20 stars</span>
+        </div>
+        <div class="progress" aria-hidden="true">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mission-shell" aria-label="Mouse Master activities">
+      <aside class="panel">
+        <h2 class="section-title">Choose a challenge</h2>
+        <div class="mission-list" id="missionList"></div>
+      </aside>
+
+      <div class="panel activity-area">
+        <div id="activityPanels"></div>
+        <section class="completion" id="completionScreen" aria-live="polite">
+          <div class="completion-grid">
+            <div>
+              <div class="status-pill good">Mission complete</div>
+              <h2 style="margin-top:12px;font-size:clamp(2rem,3.2vw,3.4rem);">Well done!</h2>
+              <p id="completionMessage" style="margin:12px 0 0;font-size:1.2rem;line-height:1.55;color:var(--muted);max-width:56ch;">
+                You are becoming brilliant at using a computer mouse!
+              </p>
+              <div class="button-row">
+                <button class="btn green" id="playAgainBtn" type="button">Play Again</button>
+              </div>
+            </div>
+            <div class="badge" aria-hidden="true">
+              <div class="badge-inner">
+                <span class="icon" id="badgeIcon">🏅</span>
+                <span class="name" id="badgeName">Mouse Master</span>
+                <span class="sub" id="badgeSub">Great mouse work!</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+  </main>
+
+  <template id="panelTemplate">
+    <section class="activity-panel">
+      <div class="activity-top">
+        <div>
+          <div class="status-pill" data-status></div>
+          <h2 data-title style="margin-top:10px;"></h2>
+          <p data-instruction></p>
+          <div class="activity-stars" data-stars></div>
+        </div>
+      </div>
+      <div class="stage" data-stage></div>
+    </section>
+  </template>
+
+  <script>
+    // ---------------------------------------------------------------------------
+    // Mouse Master
+    // One self-contained lesson page for Year 1 pupils.
+    // The whole mission uses shared helpers so future lessons can swap out content
+    // without needing to rebuild the page structure.
+    // ---------------------------------------------------------------------------
+
+    const TOTAL_STARS = 20;
+
+    // Activity 6 questions are kept in a single array so future year groups can
+    // replace the content while keeping the same quiz interface.
+    const quizQuestions = [
+      {
+        question: "Which mouse action moves something?",
+        options: ["Click", "Drag", "Type"],
+        answer: "Drag",
+        feedback: "Yes. Dragging helps us move things."
+      },
+      {
+        question: "How do you open many programs?",
+        options: ["Click once", "Double click", "Press Escape"],
+        answer: "Double click",
+        feedback: "Yes. Double click to open many things."
+      },
+      {
+        question: "Which device controls the pointer?",
+        options: ["Keyboard", "Mouse", "Monitor"],
+        answer: "Mouse",
+        feedback: "Yes. The mouse moves the pointer."
+      },
+      {
+        question: "What do you do to choose a button?",
+        options: ["Click", "Sleep", "Draw"],
+        answer: "Click",
+        feedback: "Yes. Click one time."
+      },
+      {
+        question: "What do you use to make things bigger?",
+        options: ["Move the mouse", "Close your eyes", "Leave the room"],
+        answer: "Move the mouse",
+        feedback: "Yes. The mouse helps us move around the screen."
+      }
+    ];
+
+    // Drawing challenges are also stored in their own array for easy swapping.
+    const challengeCards = [
+      { title: "Draw a happy face.", icon: "😀" },
+      { title: "Draw a house.", icon: "🏠" },
+      { title: "Draw the sun.", icon: "☀️" },
+      { title: "Draw a flower.", icon: "🌼" },
+      { title: "Draw a tree.", icon: "🌳" },
+      { title: "Draw a cat.", icon: "🐱" }
+    ];
+
+    const activities = [
+      {
+        id: "click",
+        number: 1,
+        title: "Activity 1: Click Challenge",
+        subtitle: "Click each star. One star = one point.",
+        maxStars: 5
+      },
+      {
+        id: "double",
+        number: 2,
+        title: "Activity 2: Double Click Challenge",
+        subtitle: "Double click each chest to find a gem.",
+        maxStars: 5
+      },
+      {
+        id: "drag",
+        number: 3,
+        title: "Activity 3: Drag and Drop",
+        subtitle: "Move each classroom object to the right place.",
+        maxStars: 4
+      },
+      {
+        id: "path",
+        number: 4,
+        title: "Activity 4: Follow the Path",
+        subtitle: "Guide the ladybird along the winding path.",
+        maxStars: 1
+      },
+      {
+        id: "paint",
+        number: 5,
+        title: "Activity 5: Paint Time",
+        subtitle: "Use the mouse to draw a picture.",
+        maxStars: 2
+      },
+      {
+        id: "quiz",
+        number: 6,
+        title: "Activity 6: Mouse Master Quiz",
+        subtitle: "Choose the best answer.",
+        maxStars: 3
+      }
+    ];
+
+    const state = {
+      activeActivity: "click",
+      totalStars: 0,
+      starsByActivity: {
+        click: 0,
+        double: 0,
+        drag: 0,
+        path: 0,
+        paint: 0,
+        quiz: 0
+      },
+      completedActivities: new Set(),
+      clickTargets: [],
+      doubleChests: [],
+      dragItems: [],
+      dragTargets: [],
+      quizOrder: [],
+      quizIndex: 0,
+      currentPaintChallenge: null,
+      paintChallengeIndex: 0,
+      paintDrawn: false,
+      paintCompletedCards: 0,
+      pathActive: false,
+      pathPointIndex: 0,
+      pathFailed: false,
+      pathComplete: false,
+      pathPoints: [
+        { x: 90, y: 460 },
+        { x: 150, y: 385 },
+        { x: 235, y: 320 },
+        { x: 330, y: 248 },
+        { x: 418, y: 175 },
+        { x: 520, y: 232 },
+        { x: 620, y: 300 },
+        { x: 725, y: 220 },
+        { x: 840, y: 140 }
+      ],
+      pathCorridor: 40,
+      pathStrokeWidth: 34,
+      pathPointerId: null,
+      quizAnswered: new Set(),
+      paintTool: "pencil",
+      paintColor: "#2f80ed",
+      paintChallengeDeck: [],
+      confettiRunning: false
+    };
+
+    const missionList = document.getElementById("missionList");
+    const activityPanels = document.getElementById("activityPanels");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const completionScreen = document.getElementById("completionScreen");
+    const completionMessage = document.getElementById("completionMessage");
+    const badgeName = document.getElementById("badgeName");
+    const badgeIcon = document.getElementById("badgeIcon");
+    const badgeSub = document.getElementById("badgeSub");
+    const playAgainBtn = document.getElementById("playAgainBtn");
+
+    const panelTemplate = document.getElementById("panelTemplate");
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function pickRandom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function shuffle(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function addStars(activityId, count = 1) {
+      const activity = activities.find((item) => item.id === activityId);
+      if (!activity) return;
+
+      const current = state.starsByActivity[activityId];
+      const next = clamp(current + count, 0, activity.maxStars);
+      const gained = next - current;
+      if (gained <= 0) return;
+
+      state.starsByActivity[activityId] = next;
+      state.totalStars += gained;
+
+      updateProgress();
+      renderActivityStars(activityId);
+      maybeCompleteMission(activityId);
+    }
+
+    function updateProgress() {
+      const percent = (state.totalStars / TOTAL_STARS) * 100;
+      progressFill.style.width = `${percent}%`;
+      progressText.textContent = `${state.totalStars} / ${TOTAL_STARS} stars`;
+    }
+
+    function renderMissionList() {
+      missionList.innerHTML = "";
+      activities.forEach((activity) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "mission-card";
+        button.dataset.activity = activity.id;
+        button.innerHTML = `
+          <div class="mission-num">${activity.number}</div>
+          <div>
+            <strong>${activity.title}</strong>
+            <span>${activity.subtitle}</span>
+          </div>
+        `;
+        button.addEventListener("click", () => setActiveActivity(activity.id));
+        missionList.appendChild(button);
+      });
+    }
+
+    function renderPanels() {
+      activityPanels.innerHTML = "";
+
+      activities.forEach((activity) => {
+        const panel = panelTemplate.content.firstElementChild.cloneNode(true);
+        panel.dataset.activity = activity.id;
+        panel.querySelector("[data-status]").textContent = `Mission ${activity.number}`;
+        panel.querySelector("[data-title]").textContent = activity.title;
+        panel.querySelector("[data-instruction]").textContent = activity.subtitle;
+
+        const starsWrap = panel.querySelector("[data-stars]");
+        for (let i = 0; i < activity.maxStars; i++) {
+          const star = document.createElement("span");
+          star.className = "mini-star";
+          star.textContent = "★";
+          star.dataset.starIndex = i;
+          starsWrap.appendChild(star);
+        }
+
+        const stage = panel.querySelector("[data-stage]");
+        stage.appendChild(buildActivityContent(activity.id));
+
+        activityPanels.appendChild(panel);
+      });
+    }
+
+    function buildActivityContent(activityId) {
+      if (activityId === "click") return buildClickActivity();
+      if (activityId === "double") return buildDoubleClickActivity();
+      if (activityId === "drag") return buildDragActivity();
+      if (activityId === "path") return buildPathActivity();
+      if (activityId === "paint") return buildPaintActivity();
+      return buildQuizActivity();
+    }
+
+    function setActiveActivity(activityId) {
+      state.activeActivity = activityId;
+      activityPanels.style.display = "";
+      completionScreen.classList.remove("active");
+
+      document.querySelectorAll(".mission-card").forEach((button) => {
+        button.classList.toggle("active", button.dataset.activity === activityId);
+      });
+
+      document.querySelectorAll(".activity-panel").forEach((panel) => {
+        panel.classList.toggle("active", panel.dataset.activity === activityId);
+      });
+
+      if (activityId === "path") {
+        ensurePathStarted();
+      }
+
+      if (activityId === "paint" && state.paintResizeHandler) {
+        requestAnimationFrame(() => {
+          if (state.activeActivity === "paint") {
+            state.paintResizeHandler();
+          }
+        });
+      }
+    }
+
+    function renderActivityStars(activityId) {
+      const panel = document.querySelector(`.activity-panel[data-activity="${activityId}"]`);
+      if (!panel) return;
+      const stars = panel.querySelectorAll(".mini-star");
+      stars.forEach((star, index) => {
+        star.style.filter = index < state.starsByActivity[activityId] ? "grayscale(0) saturate(1)" : "grayscale(0.75) opacity(0.35)";
+        star.style.transform = index < state.starsByActivity[activityId] ? "scale(1.05)" : "scale(0.95)";
+      });
+    }
+
+    function maybeCompleteMission(activityId) {
+      const activity = activities.find((item) => item.id === activityId);
+      if (!activity) return;
+      if (state.starsByActivity[activityId] >= activity.maxStars) {
+        state.completedActivities.add(activityId);
+      }
+
+      if (state.totalStars >= TOTAL_STARS) {
+        showCompletion();
+      }
+    }
+
+    function showCompletion() {
+      activityPanels.style.display = "none";
+      completionScreen.classList.add("active");
+
+      const allStars = state.totalStars >= TOTAL_STARS;
+      if (allStars) {
+        badgeIcon.textContent = "🌟";
+        badgeName.textContent = "Master Mouse Champion";
+        badgeSub.textContent = "Perfect mouse work!";
+        completionMessage.textContent = "You are becoming brilliant at using a computer mouse!";
+      } else {
+        badgeIcon.textContent = "🏅";
+        badgeName.textContent = "Mouse Master";
+        badgeSub.textContent = "Great mouse work!";
+        completionMessage.textContent = "You have finished the mission!";
+      }
+
+      fireConfetti();
+      completionScreen.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function fireConfetti() {
+      if (state.confettiRunning) return;
+      state.confettiRunning = true;
+
+      const colors = ["#2f80ed", "#ff6fae", "#ff8a3d", "#22b573", "#f7b500", "#8c6cff"];
+      for (let i = 0; i < 80; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.background = pickRandom(colors);
+        piece.style.transform = `rotate(${Math.random() * 180}deg)`;
+        piece.style.setProperty("--drift", `${(Math.random() * 220 - 110).toFixed(0)}px`);
+        piece.style.animationDuration = `${1.8 + Math.random() * 1.8}s`;
+        document.body.appendChild(piece);
+        piece.addEventListener("animationend", () => piece.remove());
+      }
+
+      window.setTimeout(() => {
+        state.confettiRunning = false;
+      }, 1000);
+    }
+
+    function buildClickActivity() {
+      const wrapper = document.createElement("div");
+      wrapper.className = "star-field";
+
+      const info = document.createElement("div");
+      info.className = "status-pill";
+      info.style.position = "relative";
+      info.style.zIndex = "1";
+      info.textContent = "Click each star to collect it";
+      wrapper.appendChild(info);
+
+      state.clickTargets = [];
+
+      const positions = [
+        { top: 70, left: 120, color: "#ff6fae" },
+        { top: 150, left: 330, color: "#2f80ed" },
+        { top: 90, left: 560, color: "#f7b500" },
+        { top: 260, left: 200, color: "#22b573" },
+        { top: 280, left: 590, color: "#ff8a3d" }
+      ];
+
+      positions.forEach((pos, index) => {
+        const star = document.createElement("button");
+        star.type = "button";
+        star.className = "floating-star";
+        star.textContent = "★";
+        star.style.top = `${pos.top}px`;
+        star.style.left = `${pos.left}px`;
+        star.style.background = `linear-gradient(180deg, ${pos.color}, rgba(0,0,0,0.12))`;
+        star.dataset.index = index;
+        star.addEventListener("click", () => {
+          if (star.dataset.done === "yes") return;
+          star.dataset.done = "yes";
+          star.style.animation = "popIn 220ms ease-out both";
+          star.style.pointerEvents = "none";
+          star.style.opacity = "0";
+          window.setTimeout(() => star.remove(), 160);
+          addStars("click", 1);
+          if (state.starsByActivity.click >= 5) {
+            info.textContent = "Great clicking!";
+          } else {
+            info.textContent = "Good clicking! Keep going.";
+          }
+        });
+        state.clickTargets.push(star);
+        wrapper.appendChild(star);
+      });
+
+      return wrapper;
+    }
+
+    function buildDoubleClickActivity() {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = `
+        <div class="status-pill warn" style="margin-bottom:10px;">Double click each chest</div>
+        <div class="chest-grid" id="chestGrid"></div>
+        <p id="chestNote" style="margin-top:14px;font-size:1.05rem;color:var(--muted);font-weight:800;">
+          Open all five chests to find the gems.
+        </p>
+      `;
+
+      const chestGrid = wrapper.querySelector("#chestGrid");
+      const chestNote = wrapper.querySelector("#chestNote");
+      state.doubleChests = [];
+
+      for (let i = 0; i < 5; i++) {
+        const chest = document.createElement("button");
+        chest.type = "button";
+        chest.className = "chest";
+        chest.innerHTML = `<span aria-hidden="true">🎁</span><span class="label">Chest ${i + 1}</span>`;
+        chest.dataset.open = "no";
+
+        let clickTimer = null;
+        chest.addEventListener("click", () => {
+          if (chest.dataset.open === "yes") return;
+
+          // Generous double-click detection:
+          // If the second click happens soon after the first, we count it as a win.
+          if (clickTimer) {
+            window.clearTimeout(clickTimer);
+            clickTimer = null;
+            openChest(chest, chestNote);
+            return;
+          }
+
+          clickTimer = window.setTimeout(() => {
+            clickTimer = null;
+          }, 700);
+        });
+
+        chest.addEventListener("dblclick", () => {
+          if (chest.dataset.open === "yes") return;
+          if (clickTimer) {
+            window.clearTimeout(clickTimer);
+            clickTimer = null;
+          }
+          openChest(chest, chestNote);
+        });
+
+        state.doubleChests.push(chest);
+        chestGrid.appendChild(chest);
+      }
+
+      return wrapper;
+    }
+
+    function openChest(chest, note) {
+      if (chest.dataset.open === "yes") return;
+      chest.dataset.open = "yes";
+      chest.classList.add("open");
+      chest.innerHTML = `<span aria-hidden="true" style="font-size:3.3rem;">💎</span><span class="label">Gem!</span>`;
+      addStars("double", 1);
+      note.textContent = state.starsByActivity.double >= 5 ? "Great double clicking!" : "Good job! Keep opening the chests.";
+    }
+
+    function buildDragActivity() {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = `
+        <div class="status-pill good">Drag each object to the right place</div>
+        <div class="drag-layout">
+          <div class="object-bank">
+            <h3>Objects</h3>
+            <div class="draggables" id="dragItems"></div>
+          </div>
+          <div class="drop-bank">
+            <h3>Places</h3>
+            <div class="drop-zone-list" id="dropZones"></div>
+          </div>
+        </div>
+      `;
+
+      const dragItems = wrapper.querySelector("#dragItems");
+      const dropZones = wrapper.querySelector("#dropZones");
+
+      const items = shuffle([
+        { name: "Book", emoji: "📘", match: "Bookshelf" },
+        { name: "Pencil", emoji: "✏️", match: "Pencil Pot" },
+        { name: "Laptop", emoji: "💻", match: "Desk" },
+        { name: "Ball", emoji: "⚽", match: "Toy Box" }
+      ]);
+
+      const zones = [
+        { label: "Bookshelf", accepts: "Book" },
+        { label: "Pencil Pot", accepts: "Pencil" },
+        { label: "Desk", accepts: "Laptop" },
+        { label: "Toy Box", accepts: "Ball" }
+      ];
+
+      state.dragItems = [];
+      state.dragTargets = [];
+
+      items.forEach((item) => {
+        const node = document.createElement("div");
+        node.className = "draggable";
+        node.setAttribute("draggable", "true");
+        node.dataset.item = item.name;
+        node.innerHTML = `<span style="font-size:1.6rem;">${item.emoji}</span><span>${item.name}</span>`;
+
+        node.addEventListener("dragstart", (event) => {
+          event.dataTransfer.setData("text/plain", item.name);
+          node.classList.add("dragging");
+        });
+        node.addEventListener("dragend", () => node.classList.remove("dragging"));
+
+        state.dragItems.push(node);
+        dragItems.appendChild(node);
+      });
+
+      zones.forEach((zone) => {
+        const target = document.createElement("div");
+        target.className = "drop-zone";
+        target.dataset.accepts = zone.accepts;
+        target.innerHTML = `<span>${zone.label}</span><span class="slot">Drop here</span>`;
+
+        target.addEventListener("dragover", (event) => {
+          event.preventDefault();
+        });
+
+        target.addEventListener("drop", (event) => {
+          event.preventDefault();
+          const itemName = event.dataTransfer.getData("text/plain");
+          if (itemName !== zone.accepts || target.dataset.done === "yes") return;
+          completeDropZone(target, itemName, zone.label);
+        });
+
+        state.dragTargets.push(target);
+        dropZones.appendChild(target);
+      });
+
+      return wrapper;
+    }
+
+    function completeDropZone(target, itemName, zoneLabel) {
+      target.dataset.done = "yes";
+      target.classList.add("good");
+      target.innerHTML = `<span>${itemName} → ${zoneLabel}</span><span class="slot">Correct</span>`;
+      addStars("drag", 1);
+    }
+
+    function buildPathActivity() {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = `
+        <div class="path-stage" id="pathStage">
+          <svg class="path-svg" viewBox="0 0 900 530" preserveAspectRatio="none" aria-hidden="true">
+            <path id="pathGuide" d="M90 460 C150 385 195 362 235 320 S310 270 330 248 S395 205 418 175 S490 188 520 232 S590 320 620 300 S700 235 725 220 S805 155 840 140"
+              fill="none" stroke="rgba(34,181,115,0.18)" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <div class="path-hint">
+            <div class="status-pill good">Slow and careful. Keep the mouse on the path.</div>
+            <p style="margin:10px 0 0;font-size:1.05rem;line-height:1.45;color:var(--muted);font-weight:800;">
+              Move the ladybird from the start to the finish. If you leave the path, try again.
+            </p>
+          </div>
+          <div class="path-target" data-step="0"></div>
+          <div class="path-target" data-step="1"></div>
+          <div class="path-target" data-step="2"></div>
+          <div class="path-target" data-step="3"></div>
+          <div class="path-target" data-step="4"></div>
+          <div class="path-target" data-step="5"></div>
+          <div class="path-target" data-step="6"></div>
+          <div class="path-target" data-step="7"></div>
+          <div class="guide-bug" id="bug">🐞</div>
+          <div class="status-pill" id="pathStatus" style="position:absolute;right:16px;top:16px;">Find the start</div>
+        </div>
+      `;
+
+      const stage = wrapper.querySelector("#pathStage");
+      const bug = wrapper.querySelector("#bug");
+      const pathStatus = wrapper.querySelector("#pathStatus");
+      const targets = [...wrapper.querySelectorAll(".path-target")];
+
+      state.pathTargets = targets;
+      placePathTargets(targets);
+      resetPathBug(bug);
+
+      stage.addEventListener("pointerdown", (event) => {
+        const point = getStagePoint(stage, event);
+        if (!isPointNearPath(point, 0)) return;
+        stage.setPointerCapture(event.pointerId);
+        state.pathPointerId = event.pointerId;
+        state.pathActive = true;
+        state.pathFailed = false;
+        state.pathPointIndex = 0;
+        pathStatus.textContent = "Keep going!";
+        moveBug(bug, point.x, point.y);
+      });
+
+      stage.addEventListener("pointermove", (event) => {
+        if (!state.pathActive || state.pathComplete) return;
+        if (state.pathPointerId !== null && event.pointerId !== state.pathPointerId) return;
+        const point = getStagePoint(stage, event);
+        moveBug(bug, point.x, point.y);
+
+        if (!isPointNearPath(point, state.pathPointIndex)) {
+          failPath(pathStatus, bug);
+          return;
+        }
+
+        const target = state.pathPoints[state.pathPointIndex + 1];
+        if (target && distance(point, target) < 42) {
+          state.pathPointIndex += 1;
+          updatePathTargets();
+          pathStatus.textContent = state.pathPointIndex >= state.pathPoints.length - 1 ? "Finish!" : "Good moving!";
+
+          if (state.pathPointIndex >= state.pathPoints.length - 1) {
+            state.pathComplete = true;
+            state.pathActive = false;
+            addStars("path", 1);
+            stage.classList.add("complete");
+            pathStatus.className = "status-pill good";
+            pathStatus.textContent = "Great path work!";
+          }
+        }
+      });
+
+      const endPath = (event) => {
+        if (state.pathPointerId !== null && event.pointerId !== state.pathPointerId) return;
+        if (stage.hasPointerCapture?.(event.pointerId)) {
+          stage.releasePointerCapture(event.pointerId);
+        }
+        state.pathPointerId = null;
+      };
+
+      stage.addEventListener("pointerup", endPath);
+      stage.addEventListener("pointercancel", endPath);
+
+      wrapper.addEventListener("click", () => {
+        // If a child taps the panel, nudge them to the start rather than failing.
+      });
+
+      return wrapper;
+    }
+
+    function resetPathBug(bug) {
+      const start = state.pathPoints[0];
+      bug.style.left = `${(start.x / 900) * 100}%`;
+      bug.style.top = `${(start.y / 530) * 100}%`;
+      state.pathPointIndex = 0;
+      state.pathActive = false;
+      state.pathFailed = false;
+      state.pathComplete = state.starsByActivity.path >= 1;
+      state.pathPointerId = null;
+    }
+
+    function placePathTargets(targets) {
+      targets.forEach((target, index) => {
+        const point = state.pathPoints[index + 1];
+        if (!point) return;
+        target.style.left = `${(point.x / 900) * 100}%`;
+        target.style.top = `${(point.y / 530) * 100}%`;
+      });
+      updatePathTargets();
+    }
+
+    function updatePathTargets() {
+      const targets = document.querySelectorAll('[data-activity="path"] .path-target');
+      targets.forEach((target, index) => {
+        target.classList.toggle("done", index < state.pathPointIndex);
+      });
+    }
+
+    function failPath(pathStatus, bug) {
+      state.pathActive = false;
+      state.pathFailed = true;
+      state.pathPointerId = null;
+      pathStatus.className = "status-pill warn";
+      pathStatus.textContent = "Oops! Try again.";
+      resetPathBug(bug);
+      window.setTimeout(() => {
+        if (!state.pathComplete) {
+          pathStatus.className = "status-pill good";
+          pathStatus.textContent = "Find the start";
+        }
+      }, 1200);
+    }
+
+    function buildPaintActivity() {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = `
+        <div class="paint-layout">
+          <div class="paint-panel">
+            <h3>Challenge card</h3>
+            <div class="challenge-card" id="challengeCard"></div>
+            <div class="button-row">
+              <button class="btn secondary" type="button" id="newChallengeBtn">New card</button>
+              <button class="btn green" type="button" id="donePaintBtn">I made a picture</button>
+            </div>
+            <p style="margin:14px 0 0;color:var(--muted);font-weight:800;line-height:1.45;">
+              Use the mouse to draw. There is no right answer.
+            </p>
+            <h3 style="margin-top:18px;">Tools</h3>
+            <div class="tool-row">
+              <button class="btn" type="button" data-tool="pencil">Pencil</button>
+              <button class="btn ghost" type="button" data-tool="eraser">Eraser</button>
+            </div>
+            <div class="color-grid" id="colorGrid" aria-label="Colour choices"></div>
+          </div>
+          <div class="canvas-shell">
+            <div class="canvas-toolbar">
+              <div class="status-pill good" id="paintStatus">Draw with the mouse</div>
+              <button class="btn purple" type="button" id="clearCanvasBtn">Clear canvas</button>
+            </div>
+            <div class="canvas-wrap">
+              <canvas id="paintCanvas" width="900" height="450" aria-label="Drawing canvas"></canvas>
+              <div class="canvas-note">Move the mouse to draw.</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const challengeCard = wrapper.querySelector("#challengeCard");
+      const newChallengeBtn = wrapper.querySelector("#newChallengeBtn");
+      const donePaintBtn = wrapper.querySelector("#donePaintBtn");
+      const clearCanvasBtn = wrapper.querySelector("#clearCanvasBtn");
+      const paintStatus = wrapper.querySelector("#paintStatus");
+      const canvas = wrapper.querySelector("#paintCanvas");
+      const ctx = canvas.getContext("2d");
+      const colorGrid = wrapper.querySelector("#colorGrid");
+
+      const colors = [
+        "#2f80ed", "#ff6fae", "#22b573", "#f7b500",
+        "#ff8a3d", "#8c6cff", "#ff5a68", "#0abde3"
+      ];
+
+      state.paintDrawn = false;
+      state.paintChallengeIndex = 0;
+      state.paintCompletedCards = 0;
+      state.currentPaintChallenge = null;
+
+      colors.forEach((color) => {
+        const swatch = document.createElement("button");
+        swatch.type = "button";
+        swatch.className = "swatch";
+        swatch.style.background = color;
+        swatch.addEventListener("click", () => {
+          state.paintColor = color;
+          state.paintTool = "pencil";
+          wrapper.querySelectorAll("[data-tool]").forEach((button) => button.classList.toggle("ghost", button.dataset.tool !== "pencil"));
+          wrapper.querySelectorAll(".swatch").forEach((button) => button.classList.remove("active"));
+          swatch.classList.add("active");
+          paintStatus.textContent = "Colour chosen";
+        });
+        colorGrid.appendChild(swatch);
+      });
+
+      function setTool(tool) {
+        state.paintTool = tool;
+        wrapper.querySelectorAll("[data-tool]").forEach((button) => {
+          button.classList.toggle("ghost", button.dataset.tool !== tool);
+        });
+        paintStatus.textContent = tool === "eraser" ? "Eraser ready" : "Pencil ready";
+      }
+
+      wrapper.querySelectorAll("[data-tool]").forEach((button) => {
+        button.addEventListener("click", () => setTool(button.dataset.tool));
+      });
+
+      function resizeCanvasForDPI() {
+        const rect = canvas.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
+        const previous = document.createElement("canvas");
+        previous.width = canvas.width;
+        previous.height = canvas.height;
+        previous.getContext("2d").drawImage(canvas, 0, 0);
+
+        canvas.width = Math.round(rect.width * ratio);
+        canvas.height = Math.round(450 * ratio);
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.lineWidth = 10;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, rect.width, 450);
+        ctx.drawImage(previous, 0, 0, previous.width, previous.height, 0, 0, rect.width, 450);
+      }
+
+      function nextPaintChallenge() {
+        if (state.paintChallengeDeck.length === 0) {
+          state.paintChallengeDeck = shuffle(challengeCards);
+        }
+        return state.paintChallengeDeck.pop();
+      }
+
+      function drawChallenge() {
+        state.currentPaintChallenge = nextPaintChallenge();
+        challengeCard.innerHTML = `
+          <div class="status-pill" style="margin-bottom:12px;">Challenge ${state.paintChallengeIndex + 1}</div>
+          <p>${state.currentPaintChallenge.icon} ${state.currentPaintChallenge.title}</p>
+          <p style="margin-top:10px;font-size:1rem;color:var(--muted);font-weight:800;">Draw your own picture.</p>
+        `;
+        state.paintDrawn = false;
+      }
+
+      function pointerPos(event) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top
+        };
+      }
+
+      function drawLine(from, to) {
+        ctx.strokeStyle = state.paintTool === "eraser" ? "#ffffff" : state.paintColor;
+        ctx.lineWidth = state.paintTool === "eraser" ? 22 : 10;
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.stroke();
+      }
+
+      let painting = false;
+      let lastPoint = null;
+
+      canvas.addEventListener("pointerdown", (event) => {
+        canvas.setPointerCapture(event.pointerId);
+        painting = true;
+        lastPoint = pointerPos(event);
+        state.paintDrawn = true;
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (!painting) return;
+        const next = pointerPos(event);
+        if (lastPoint) drawLine(lastPoint, next);
+        lastPoint = next;
+        state.paintDrawn = true;
+      });
+
+      const stopPainting = () => {
+        painting = false;
+        lastPoint = null;
+      };
+
+      canvas.addEventListener("pointerup", stopPainting);
+      canvas.addEventListener("pointercancel", stopPainting);
+      canvas.addEventListener("pointerleave", stopPainting);
+
+      clearCanvasBtn.addEventListener("click", () => {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.getBoundingClientRect().width, 450);
+        state.paintDrawn = false;
+        paintStatus.textContent = "Canvas cleared";
+      });
+
+      newChallengeBtn.addEventListener("click", () => {
+        state.paintChallengeIndex = (state.paintChallengeIndex + 1) % challengeCards.length;
+        drawChallenge();
+      });
+
+      donePaintBtn.addEventListener("click", () => {
+        if (!state.paintDrawn) {
+          paintStatus.textContent = "Try drawing first";
+          return;
+        }
+        if (state.starsByActivity.paint >= 2) return;
+        addStars("paint", 1);
+        state.paintCompletedCards += 1;
+        paintStatus.textContent = state.starsByActivity.paint >= 2 ? "Great drawing!" : "Great! Try one more picture.";
+        if (state.starsByActivity.paint < 2) {
+          newChallengeBtn.click();
+        }
+      });
+
+      drawChallenge();
+
+      if (state.paintResizeHandler) {
+        window.removeEventListener("resize", state.paintResizeHandler);
+      }
+      state.paintResizeHandler = resizeCanvasForDPI;
+      window.addEventListener("resize", state.paintResizeHandler, { passive: true });
+
+      return wrapper;
+    }
+
+    function buildQuizActivity() {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = `
+        <div class="quiz-grid">
+          <div class="quiz-card">
+            <h3>Quiz</h3>
+            <div class="quiz-question" id="quizQuestion"></div>
+            <div class="answer-list" id="answerList"></div>
+          </div>
+          <div class="quiz-card">
+            <h3>Star board</h3>
+            <p style="margin:0;color:var(--muted);font-size:1.02rem;line-height:1.45;font-weight:800;">
+              Answer the question. If you are right, you earn a star.
+            </p>
+            <div class="feedback" id="quizFeedback">Get ready.</div>
+            <div class="button-row">
+              <button class="btn secondary" type="button" id="nextQuestionBtn">Next question</button>
+            </div>
+          </div>
+          <div class="quiz-card">
+            <h3>Tip</h3>
+            <p style="font-size:1.1rem;line-height:1.5;font-weight:800;color:var(--ink);">
+              Think about click, double click, and drag.
+            </p>
+          </div>
+        </div>
+      `;
+
+      const quizQuestion = wrapper.querySelector("#quizQuestion");
+      const answerList = wrapper.querySelector("#answerList");
+      const quizFeedback = wrapper.querySelector("#quizFeedback");
+      const nextQuestionBtn = wrapper.querySelector("#nextQuestionBtn");
+
+      state.quizOrder = shuffle(quizQuestions).slice(0, 3);
+      state.quizIndex = 0;
+      state.quizAnswered = new Set();
+
+      function renderQuestion() {
+        const current = state.quizOrder[state.quizIndex];
+        if (!current) {
+          quizQuestion.innerHTML = `<p>All done!</p>`;
+          answerList.innerHTML = "";
+          quizFeedback.textContent = "Well done! You finished the quiz.";
+          nextQuestionBtn.disabled = true;
+          nextQuestionBtn.textContent = "Quiz finished";
+          return;
+        }
+
+        quizQuestion.innerHTML = `<p>${current.question}</p>`;
+        answerList.innerHTML = "";
+        quizFeedback.textContent = "Choose one answer.";
+        nextQuestionBtn.disabled = true;
+        nextQuestionBtn.textContent = "Answer first";
+
+        current.options.forEach((option) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "answer";
+          button.textContent = option;
+          button.addEventListener("click", () => {
+            if (button.dataset.done === "yes") return;
+            const correct = option === current.answer;
+            if (correct) {
+              button.classList.add("correct");
+              button.dataset.done = "yes";
+              answerList.querySelectorAll("button").forEach((other) => {
+                other.disabled = true;
+              });
+              quizFeedback.textContent = current.feedback;
+              if (!state.quizAnswered.has(state.quizIndex)) {
+                state.quizAnswered.add(state.quizIndex);
+                addStars("quiz", 1);
+              }
+              window.setTimeout(() => {
+                state.quizIndex += 1;
+                renderQuestion();
+              }, 900);
+            } else {
+              button.classList.add("wrong");
+              quizFeedback.textContent = "Try again.";
+              window.setTimeout(() => button.classList.remove("wrong"), 600);
+            }
+          });
+          answerList.appendChild(button);
+        });
+      }
+
+      renderQuestion();
+      return wrapper;
+    }
+
+    function getStagePoint(stage, event) {
+      const rect = stage.getBoundingClientRect();
+      return {
+        x: ((event.clientX - rect.left) / rect.width) * 900,
+        y: ((event.clientY - rect.top) / rect.height) * 530
+      };
+    }
+
+    function distance(a, b) {
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    }
+
+    function pointToSegmentDistance(point, a, b) {
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const lenSq = dx * dx + dy * dy;
+      if (lenSq === 0) return distance(point, a);
+      const t = clamp(((point.x - a.x) * dx + (point.y - a.y) * dy) / lenSq, 0, 1);
+      const projection = { x: a.x + t * dx, y: a.y + t * dy };
+      return distance(point, projection);
+    }
+
+    function isPointNearPath(point, segmentIndex) {
+      const radius = state.pathCorridor;
+      const startIndex = clamp(segmentIndex - 1, 0, state.pathPoints.length - 2);
+      const endIndex = clamp(segmentIndex + 2, 1, state.pathPoints.length - 1);
+
+      for (let i = startIndex; i <= endIndex; i++) {
+        const a = state.pathPoints[i];
+        const b = state.pathPoints[i + 1];
+        if (!a || !b) continue;
+        if (pointToSegmentDistance(point, a, b) <= radius) return true;
+      }
+      return false;
+    }
+
+    function moveBug(bug, x, y) {
+      bug.style.left = `${x / 900 * 100}%`;
+      bug.style.top = `${y / 530 * 100}%`;
+    }
+
+    function ensurePathStarted() {
+      const stage = document.querySelector('.activity-panel[data-activity="path"] .path-stage');
+      if (!stage) return;
+      const bug = stage.querySelector("#bug");
+      const pathStatus = stage.querySelector("#pathStatus");
+      if (bug && state.starsByActivity.path < 1) {
+        resetPathBug(bug);
+        updatePathTargets();
+        stage.classList.remove("complete");
+        if (pathStatus) {
+          pathStatus.className = "status-pill good";
+          pathStatus.textContent = "Find the start";
+        }
+      }
+    }
+
+    function resetAllState() {
+      state.activeActivity = "click";
+      state.totalStars = 0;
+      state.completedActivities = new Set();
+      state.starsByActivity = { click: 0, double: 0, drag: 0, path: 0, paint: 0, quiz: 0 };
+      state.quizOrder = [];
+      state.quizIndex = 0;
+      state.currentPaintChallenge = null;
+      state.paintChallengeIndex = 0;
+      state.paintChallengeDeck = [];
+      state.paintDrawn = false;
+      state.paintCompletedCards = 0;
+      state.pathActive = false;
+      state.pathPointIndex = 0;
+      state.pathFailed = false;
+      state.pathComplete = false;
+      state.pathPointerId = null;
+      state.confettiRunning = false;
+
+      renderPanels();
+      updateProgress();
+      ["click", "double", "drag", "path", "paint", "quiz"].forEach(renderActivityStars);
+      setActiveActivity("click");
+      activityPanels.style.display = "";
+      completionScreen.classList.remove("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    playAgainBtn.addEventListener("click", resetAllState);
+
+    // ---------------------------------------------------------------------------
+    // Start the mission.
+    // ---------------------------------------------------------------------------
+    renderMissionList();
+    renderPanels();
+    updateProgress();
+    ["click", "double", "drag", "path", "paint", "quiz"].forEach(renderActivityStars);
+    setActiveActivity("click");
+  </script>
+</body>
+</html>
