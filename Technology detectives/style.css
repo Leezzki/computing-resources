@@ -322,6 +322,71 @@ h2 {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 250, 255, 0.96));
 }
 
+.place-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1.2rem 0;
+}
+
+.place-card {
+  display: grid;
+  place-items: center;
+  min-height: 9.5rem;
+  padding: 1rem 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 8px 0 rgba(33, 48, 71, 0.2);
+  color: #172033;
+  font-size: clamp(1.45rem, 2.8vw, 2.2rem);
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.place-card:hover {
+  filter: brightness(1.04);
+  transform: translateY(-2px);
+}
+
+.place-card:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 rgba(33, 48, 71, 0.2);
+}
+
+.place-icon {
+  font-size: clamp(3rem, 6vw, 4.8rem);
+  line-height: 1;
+}
+
+.place-name {
+  margin-top: 0.35rem;
+}
+
+.place-hospital {
+  background: linear-gradient(180deg, #ffb6c9, #ffdeea);
+}
+
+.place-supermarket {
+  background: linear-gradient(180deg, #a9e8b0, #dff9e1);
+}
+
+.place-airport {
+  background: linear-gradient(180deg, #a7d8ff, #dff0ff);
+}
+
+.place-library {
+  background: linear-gradient(180deg, #f7d38b, #fff1cb);
+}
+
+.place-fire {
+  background: linear-gradient(180deg, #ffb06c, #ffe0c3);
+}
+
+.place-zoo {
+  background: linear-gradient(180deg, #9fe0c8, #defaf0);
+}
+
 .classroom-scene {
   margin: 1.1rem 0 1.3rem;
   padding: 1rem;
@@ -330,6 +395,30 @@ h2 {
   background:
     linear-gradient(180deg, #dff4ff 0%, #fff8db 100%);
   box-shadow: var(--shadow);
+}
+
+.classroom-scene.place-hospital {
+  background: linear-gradient(180deg, #ffe1eb 0%, #fff9d9 100%);
+}
+
+.classroom-scene.place-supermarket {
+  background: linear-gradient(180deg, #def9e1 0%, #fff7df 100%);
+}
+
+.classroom-scene.place-airport {
+  background: linear-gradient(180deg, #dbeeff 0%, #fff6db 100%);
+}
+
+.classroom-scene.place-library {
+  background: linear-gradient(180deg, #fff0c8 0%, #f4ffe8 100%);
+}
+
+.classroom-scene.place-fire {
+  background: linear-gradient(180deg, #ffe3c0 0%, #fff2d8 100%);
+}
+
+.classroom-scene.place-zoo {
+  background: linear-gradient(180deg, #d4f7ee 0%, #f8ffe4 100%);
 }
 
 .classroom-topbar {
@@ -351,6 +440,25 @@ h2 {
 
 .scene-card {
   min-height: 8.6rem;
+}
+
+.workplace-grid {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.job-card {
+  display: grid;
+  place-items: center;
+  margin-top: 1rem;
+  padding: 1.2rem;
+  border: 5px solid var(--border);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, #f2f7ff);
+  box-shadow: var(--shadow);
+  text-align: center;
 }
 
 .classroom-build {
@@ -601,8 +709,13 @@ h2 {
   .drag-pool,
   .drop-grid.locations,
   .drop-grid.purposes,
-  .classroom-grid {
+  .classroom-grid,
+  .place-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .workplace-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .build-room,
@@ -635,7 +748,9 @@ h2 {
   .drag-pool,
   .drop-grid.locations,
   .drop-grid.purposes,
-  .classroom-grid {
+  .classroom-grid,
+  .place-grid,
+  .workplace-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

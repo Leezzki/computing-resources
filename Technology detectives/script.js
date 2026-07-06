@@ -344,10 +344,360 @@ const LESSON_SETS = {
       { name: "Speakers", icon: "🔊", explanation: "Speakers help us hear sound and instructions." },
       { name: "Classroom Camera", icon: "📸", explanation: "A classroom camera helps us take and share pictures and videos." }
     ]
+  },
+  year2Lesson3: {
+    yearLabel: "Year 2",
+    menuTitle: "Future Jobs Explorer",
+    title: "💼 Future Jobs Explorer",
+    subtitle: "Visit different places. Find the IT. Discover how it helps people.",
+    definition: "IT helps people do jobs.",
+    finalTitle: "Future Jobs Explorer",
+    masterTitle: "Master Future Jobs Explorer",
+    finalMessage: "You found how IT helps people do important jobs.",
+    knowMessage: "I can see how IT helps people at work.",
+    intro: "Visit different places. Find the IT. Discover how it helps people.",
+    activities: [
+      { key: "place", type: "place", title: "Choose a Place", prompt: "Pick a place to visit." },
+      { key: "find", type: "find", title: "Find the IT", prompt: "Click the IT." },
+      { key: "help", type: "help", title: "How Does It Help?", prompt: "Choose how it helps." },
+      { key: "job", type: "job", title: "Job Challenge", prompt: "Choose the best IT." }
+    ],
+    workplaces: [
+      {
+        key: "hospital",
+        name: "Hospital",
+        icon: "🏥",
+        color: "place-hospital",
+        items: [
+          { name: "Patient Monitor", icon: "📈", isTechnology: true, explanation: "Great! A patient monitor shows health information." },
+          { name: "X-ray Machine", icon: "🩻", isTechnology: true, explanation: "Great! An X-ray machine helps doctors see inside the body." },
+          { name: "Computer", icon: "💻", isTechnology: true, explanation: "Great! A computer helps staff find and use information." },
+          { name: "Printer", icon: "🖨️", isTechnology: true, explanation: "Great! A printer helps staff print information." },
+          { name: "Bed", icon: "🛏️", isTechnology: false, explanation: "Not IT. Try another item." },
+          { name: "Plant", icon: "🪴", isTechnology: false, explanation: "Not IT. Try another item." }
+        ],
+        helpItems: [
+          {
+            name: "X-ray Machine",
+            icon: "🩻",
+            choices: ["Helps doctors see inside the body", "Helps people buy food", "Helps animals sleep"],
+            correct: "Helps doctors see inside the body",
+            explanation: "Yes! An X-ray machine helps doctors see inside the body."
+          },
+          {
+            name: "Patient Monitor",
+            icon: "📈",
+            choices: ["Shows health information", "Helps people write a book", "Makes a sandwich"],
+            correct: "Shows health information",
+            explanation: "Yes! A patient monitor shows health information."
+          },
+          {
+            name: "Computer",
+            icon: "💻",
+            choices: ["Helps staff find information", "Helps plants grow", "Helps shoes talk"],
+            correct: "Helps staff find information",
+            explanation: "Yes! A computer helps staff find information."
+          }
+        ],
+        jobItems: [
+          {
+            worker: "Doctor",
+            icon: "👩‍⚕️",
+            problem: "needs to see inside a body",
+            choices: ["X-ray machine", "Bookshelf", "Basket"],
+            correct: "X-ray machine",
+            explanation: "Yes! The X-ray machine helps the doctor."
+          },
+          {
+            worker: "Nurse",
+            icon: "👩‍⚕️",
+            problem: "needs health information",
+            choices: ["Patient monitor", "Plant", "Chair"],
+            correct: "Patient monitor",
+            explanation: "Yes! The patient monitor helps the nurse."
+          }
+        ]
+      },
+      {
+        key: "supermarket",
+        name: "Supermarket",
+        icon: "🛒",
+        color: "place-supermarket",
+        items: [
+          { name: "Barcode Scanner", icon: "▥", isTechnology: true, explanation: "Great! A barcode scanner helps scan products quickly." },
+          { name: "Till", icon: "🧾", isTechnology: true, explanation: "Great! A till helps staff take money and save information." },
+          { name: "Self-checkout", icon: "🛒", isTechnology: true, explanation: "Great! A self-checkout helps shoppers pay by themselves." },
+          { name: "Price Screen", icon: "📺", isTechnology: true, explanation: "Great! A price screen shows shopping information." },
+          { name: "Basket", icon: "🧺", isTechnology: false, explanation: "Not IT. Try another item." },
+          { name: "Apple", icon: "🍎", isTechnology: false, explanation: "Not IT. Try another item." }
+        ],
+        helpItems: [
+          {
+            name: "Barcode Scanner",
+            icon: "▥",
+            choices: ["Helps scan products quickly", "Helps put out fires", "Helps grow trees"],
+            correct: "Helps scan products quickly",
+            explanation: "Yes! A barcode scanner helps scan products quickly."
+          },
+          {
+            name: "Self-checkout",
+            icon: "🛒",
+            choices: ["Helps people pay by themselves", "Helps people catch fish", "Helps people sleep"],
+            correct: "Helps people pay by themselves",
+            explanation: "Yes! Self-checkout helps people pay by themselves."
+          },
+          {
+            name: "Price Screen",
+            icon: "📺",
+            choices: ["Shows price information", "Helps make soup", "Helps sweep floors"],
+            correct: "Shows price information",
+            explanation: "Yes! A price screen shows price information."
+          }
+        ],
+        jobItems: [
+          {
+            worker: "Shop worker",
+            icon: "🧑‍💼",
+            problem: "needs to scan a product",
+            choices: ["Barcode scanner", "Fire hose", "Suitcase"],
+            correct: "Barcode scanner",
+            explanation: "Yes! The barcode scanner helps the shop worker."
+          },
+          {
+            worker: "Cashier",
+            icon: "🧑‍💼",
+            problem: "needs to see the price",
+            choices: ["Price screen", "Tree", "Pencil"],
+            correct: "Price screen",
+            explanation: "Yes! The price screen helps the cashier."
+          }
+        ]
+      },
+      {
+        key: "airport",
+        name: "Airport",
+        icon: "✈️",
+        color: "place-airport",
+        items: [
+          { name: "Passport Scanner", icon: "🛂", isTechnology: true, explanation: "Great! A passport scanner reads travel information." },
+          { name: "Flight Screen", icon: "🛫", isTechnology: true, explanation: "Great! A flight screen shows flight information." },
+          { name: "Security Scanner", icon: "🧲", isTechnology: true, explanation: "Great! A security scanner helps check bags." },
+          { name: "Computer", icon: "💻", isTechnology: true, explanation: "Great! A computer helps airport staff use information." },
+          { name: "Suitcase", icon: "🧳", isTechnology: false, explanation: "Not IT. Try another item." },
+          { name: "Chair", icon: "🪑", isTechnology: false, explanation: "Not IT. Try another item." }
+        ],
+        helpItems: [
+          {
+            name: "Flight Screen",
+            icon: "🛫",
+            choices: ["Shows flight information", "Prints homework", "Makes music"],
+            correct: "Shows flight information",
+            explanation: "Yes! A flight screen shows flight information."
+          },
+          {
+            name: "Passport Scanner",
+            icon: "🛂",
+            choices: ["Checks travel information", "Helps grow flowers", "Helps cook dinner"],
+            correct: "Checks travel information",
+            explanation: "Yes! A passport scanner checks travel information."
+          },
+          {
+            name: "Security Scanner",
+            icon: "🧲",
+            choices: ["Checks bags safely", "Helps people read books", "Helps cars fly"],
+            correct: "Checks bags safely",
+            explanation: "Yes! A security scanner checks bags safely."
+          }
+        ],
+        jobItems: [
+          {
+            worker: "Pilot",
+            icon: "🧑‍✈️",
+            problem: "needs flight information",
+            choices: ["Flight screen", "Tree", "Pencil"],
+            correct: "Flight screen",
+            explanation: "Yes! The flight screen helps the pilot."
+          },
+          {
+            worker: "Security worker",
+            icon: "🧑‍✈️",
+            problem: "needs to check a bag",
+            choices: ["Security scanner", "Apple", "Chair"],
+            correct: "Security scanner",
+            explanation: "Yes! The security scanner helps the security worker."
+          }
+        ]
+      },
+      {
+        key: "library",
+        name: "Library",
+        icon: "📚",
+        color: "place-library",
+        items: [
+          { name: "Self-checkout", icon: "🛒", isTechnology: true, explanation: "Great! A self-checkout helps people borrow books." },
+          { name: "Computer", icon: "💻", isTechnology: true, explanation: "Great! A computer helps people search and read information." },
+          { name: "Printer", icon: "🖨️", isTechnology: true, explanation: "Great! A printer helps print information." },
+          { name: "Barcode Scanner", icon: "▥", isTechnology: true, explanation: "Great! A barcode scanner helps scan books quickly." },
+          { name: "Bookshelf", icon: "📚", isTechnology: false, explanation: "Not IT. Try another item." },
+          { name: "Table", icon: "🪑", isTechnology: false, explanation: "Not IT. Try another item." }
+        ],
+        helpItems: [
+          {
+            name: "Barcode Scanner",
+            icon: "▥",
+            choices: ["Helps scan books quickly", "Helps clean the floor", "Helps grow trees"],
+            correct: "Helps scan books quickly",
+            explanation: "Yes! A barcode scanner helps scan books quickly."
+          },
+          {
+            name: "Self-checkout",
+            icon: "🛒",
+            choices: ["Helps people borrow books", "Helps people play football", "Helps people paint walls"],
+            correct: "Helps people borrow books",
+            explanation: "Yes! Self-checkout helps people borrow books."
+          },
+          {
+            name: "Computer",
+            icon: "💻",
+            choices: ["Helps find information", "Helps cook lunch", "Helps build a wall"],
+            correct: "Helps find information",
+            explanation: "Yes! A computer helps people find information."
+          }
+        ],
+        jobItems: [
+          {
+            worker: "Librarian",
+            icon: "👩‍🏫",
+            problem: "needs to scan a book",
+            choices: ["Barcode scanner", "Fire hose", "Suitcase"],
+            correct: "Barcode scanner",
+            explanation: "Yes! The barcode scanner helps the librarian."
+          },
+          {
+            worker: "Reader",
+            icon: "👧",
+            problem: "needs to find a book",
+            choices: ["Computer", "Tree", "Basket"],
+            correct: "Computer",
+            explanation: "Yes! The computer helps the reader."
+          }
+        ]
+      },
+      {
+        key: "fireStation",
+        name: "Fire Station",
+        icon: "🚒",
+        color: "place-fire",
+        items: [
+          { name: "Radio", icon: "📻", isTechnology: true, explanation: "Great! A radio helps firefighters talk." },
+          { name: "Computer", icon: "💻", isTechnology: true, explanation: "Great! A computer helps firefighters use information." },
+          { name: "Alarm System", icon: "🚨", isTechnology: true, explanation: "Great! An alarm system helps warn people." },
+          { name: "Tablet", icon: "📱", isTechnology: true, explanation: "Great! A tablet helps firefighters read and share information." },
+          { name: "Hose", icon: "🧯", isTechnology: false, explanation: "Not IT. Try another item." },
+          { name: "Helmet", icon: "⛑️", isTechnology: false, explanation: "Not IT. Try another item." }
+        ],
+        helpItems: [
+          {
+            name: "Radio",
+            icon: "📻",
+            choices: ["Helps the team talk", "Helps grow flowers", "Helps people eat lunch"],
+            correct: "Helps the team talk",
+            explanation: "Yes! A radio helps the team talk."
+          },
+          {
+            name: "Alarm System",
+            icon: "🚨",
+            choices: ["Warns people quickly", "Cleans the floor", "Cuts paper"],
+            correct: "Warns people quickly",
+            explanation: "Yes! An alarm system warns people quickly."
+          },
+          {
+            name: "Tablet",
+            icon: "📱",
+            choices: ["Helps read information", "Helps wash a car", "Helps kick a ball"],
+            correct: "Helps read information",
+            explanation: "Yes! A tablet helps read information."
+          }
+        ],
+        jobItems: [
+          {
+            worker: "Firefighter",
+            icon: "👩‍🚒",
+            problem: "needs to talk to the team",
+            choices: ["Radio", "Chair", "Apple"],
+            correct: "Radio",
+            explanation: "Yes! The radio helps the firefighter."
+          },
+          {
+            worker: "Crew",
+            icon: "👨‍🚒",
+            problem: "needs to warn people",
+            choices: ["Alarm system", "Tree", "Pencil"],
+            correct: "Alarm system",
+            explanation: "Yes! The alarm system helps the crew warn people."
+          }
+        ]
+      },
+      {
+        key: "zoo",
+        name: "Zoo",
+        icon: "🐘",
+        color: "place-zoo",
+        items: [
+          { name: "Ticket Scanner", icon: "🎟️", isTechnology: true, explanation: "Great! A ticket scanner checks tickets quickly." },
+          { name: "Security Camera", icon: "📷", isTechnology: true, explanation: "Great! A security camera helps keep people safe." },
+          { name: "Computer", icon: "💻", isTechnology: true, explanation: "Great! A computer helps staff use information." },
+          { name: "Digital Map Screen", icon: "🗺️", isTechnology: true, explanation: "Great! A digital map screen shows zoo information." },
+          { name: "Tree", icon: "🌳", isTechnology: false, explanation: "Not IT. Try another item." },
+          { name: "Bench", icon: "🪑", isTechnology: false, explanation: "Not IT. Try another item." }
+        ],
+        helpItems: [
+          {
+            name: "Ticket Scanner",
+            icon: "🎟️",
+            choices: ["Checks tickets quickly", "Helps animals sleep", "Helps people sing"],
+            correct: "Checks tickets quickly",
+            explanation: "Yes! A ticket scanner checks tickets quickly."
+          },
+          {
+            name: "Security Camera",
+            icon: "📷",
+            choices: ["Helps keep people safe", "Helps grow grass", "Helps make soup"],
+            correct: "Helps keep people safe",
+            explanation: "Yes! A security camera helps keep people safe."
+          },
+          {
+            name: "Digital Map Screen",
+            icon: "🗺️",
+            choices: ["Shows zoo information", "Helps people write letters", "Helps birds fly"],
+            correct: "Shows zoo information",
+            explanation: "Yes! A digital map screen shows zoo information."
+          }
+        ],
+        jobItems: [
+          {
+            worker: "Zoo keeper",
+            icon: "🧑‍🌾",
+            problem: "needs to check a ticket",
+            choices: ["Ticket scanner", "Chair", "Apple"],
+            correct: "Ticket scanner",
+            explanation: "Yes! The ticket scanner helps the zoo keeper."
+          },
+          {
+            worker: "Visitor",
+            icon: "🧒",
+            problem: "needs zoo directions",
+            choices: ["Digital map screen", "Tree", "Pencil"],
+            correct: "Digital map screen",
+            explanation: "Yes! The digital map screen helps the visitor."
+          }
+        ]
+      }
+    ]
   }
 };
 
-const YEAR2_LESSON_ORDER = ["year2Lesson1", "year2Lesson2"];
+const YEAR2_LESSON_ORDER = ["year2Lesson1", "year2Lesson2", "year2Lesson3"];
 
 let currentLessonKey = "";
 let lesson = null;
@@ -372,6 +722,14 @@ function getFreshState() {
     year2DetectivePhase: "judge",
     year2BuildPlacements: {},
     year2BuildExplaining: false,
+    year2PlaceKey: "",
+    year2PlaceFound: new Set(),
+    year2PlaceHelpIndex: 0,
+    year2JobIndex: 0,
+    year2PlaceAdvanceScheduled: false,
+    year2FindAdvanceScheduled: false,
+    year2HelpAdvanceScheduled: false,
+    year2JobAdvanceScheduled: false,
     selectedHunt: new Set(),
     sortedItems: {},
     placedLocations: {},
@@ -389,7 +747,11 @@ function getFreshState() {
       uses: new Set(),
       users: new Set(),
       detective: new Set(),
-      build: new Set()
+      build: new Set(),
+      place: new Set(),
+      find3: new Set(),
+      help3: new Set(),
+      job3: new Set()
     }
   };
 }
@@ -423,6 +785,14 @@ function getTotalStars() {
       lesson.buildItems.length;
   }
 
+  if (currentLessonKey === "year2Lesson3") {
+    const workplace = lesson.workplaces.find((place) => place.key === state.year2PlaceKey) || lesson.workplaces[0];
+    return 1 +
+      workplace.items.filter((item) => item.isTechnology).length +
+      workplace.helpItems.length +
+      workplace.jobItems.length;
+  }
+
   return 0;
 }
 
@@ -444,7 +814,7 @@ function render() {
     return;
   }
 
-  if (currentLessonKey === "year2Lesson1" || currentLessonKey === "year2Lesson2") {
+  if (currentLessonKey === "year2Lesson1" || currentLessonKey === "year2Lesson2" || currentLessonKey === "year2Lesson3") {
     renderYear2();
     return;
   }
@@ -468,6 +838,10 @@ function renderYear1() {
 
 function renderYear2() {
   if (state.screen === "welcome") {
+    if (currentLessonKey === "year2Lesson3") {
+      renderYear2Lesson3Welcome();
+      return;
+    }
     renderYear2Welcome();
     return;
   }
@@ -479,24 +853,32 @@ function renderYear2() {
       return;
     }
 
-    if (activity.type === "sort") {
+    if (currentLessonKey === "year2Lesson1" && activity.type === "sort") {
       renderYear2Sort(activity);
-    } else if (activity.type === "locations") {
+    } else if (currentLessonKey === "year2Lesson1" && activity.type === "locations") {
       renderYear2Locations(activity);
-    } else if (activity.type === "purposes") {
+    } else if (currentLessonKey === "year2Lesson1" && activity.type === "purposes") {
       renderYear2Purposes(activity);
-    } else if (activity.type === "quick") {
+    } else if (currentLessonKey === "year2Lesson1" && activity.type === "quick") {
       renderYear2Quick(activity);
-    } else if (activity.type === "find") {
+    } else if (currentLessonKey === "year2Lesson2" && activity.type === "find") {
       renderLesson2Find(activity);
-    } else if (activity.type === "uses") {
+    } else if (currentLessonKey === "year2Lesson2" && activity.type === "uses") {
       renderLesson2Uses(activity);
-    } else if (activity.type === "users") {
+    } else if (currentLessonKey === "year2Lesson2" && activity.type === "users") {
       renderLesson2Users(activity);
-    } else if (activity.type === "detective") {
+    } else if (currentLessonKey === "year2Lesson2" && activity.type === "detective") {
       renderLesson2Detective(activity);
-    } else if (activity.type === "build") {
+    } else if (currentLessonKey === "year2Lesson2" && activity.type === "build") {
       renderLesson2Build(activity);
+    } else if (currentLessonKey === "year2Lesson3" && activity.type === "place") {
+      renderLesson3ChoosePlace(activity);
+    } else if (currentLessonKey === "year2Lesson3" && activity.type === "find") {
+      renderLesson3Find(activity);
+    } else if (currentLessonKey === "year2Lesson3" && activity.type === "help") {
+      renderLesson3Help(activity);
+    } else if (currentLessonKey === "year2Lesson3" && activity.type === "job") {
+      renderLesson3Job(activity);
     } else {
       renderFinal();
     }
@@ -574,6 +956,18 @@ function renderYear2Welcome() {
       <div class="center">
         <button class="big-button" type="button" data-action="start-year2">Start</button>
       </div>
+    </section>
+  `;
+}
+
+function renderYear2Lesson3Welcome() {
+  app.innerHTML = `
+    <section class="screen center panel">
+      <h1>${lesson.title}</h1>
+      <p class="subtitle">${lesson.intro}</p>
+      <div class="definition">${lesson.definition}</div>
+      <br>
+      <button class="big-button" type="button" data-action="start-year2">Start</button>
     </section>
   `;
 }
@@ -879,6 +1273,115 @@ function renderLesson2Build(activity) {
       </div>
       <button class="big-button" type="button" data-action="finish-year2-activity">${explanationMode ? "Finish Mission" : activity.nextLabel}</button>
       <div class="feedback" id="feedback">${explanationMode ? "Your classroom is ready!" : "Drag each item into the classroom."}</div>
+    </section>
+  `;
+}
+
+function getLesson3Workplace() {
+  return lesson.workplaces.find((place) => place.key === state.year2PlaceKey) || lesson.workplaces[0];
+}
+
+function renderLesson3ChoosePlace(activity) {
+  app.innerHTML = `
+    <section class="screen panel wide-screen">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">Choose 1 place</div>
+      </div>
+      <p class="prompt">${activity.prompt}</p>
+      <div class="place-grid">
+        ${lesson.workplaces.map((place) => `
+          <button class="place-card ${place.color}" type="button" data-place-key="${place.key}">
+            <span class="place-icon" aria-hidden="true">${place.icon}</span>
+            <span class="place-name">${place.name}</span>
+          </button>
+        `).join("")}
+      </div>
+      <div class="feedback" id="feedback">Choose a place.</div>
+    </section>
+  `;
+}
+
+function renderLesson3Find(activity) {
+  const workplace = getLesson3Workplace();
+  const total = workplace.items.filter((item) => item.isTechnology).length;
+
+  app.innerHTML = `
+    <section class="screen panel wide-screen scene-panel">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2PlaceFound.size} of ${total}</div>
+      </div>
+      <p class="prompt">${activity.prompt}</p>
+      <div class="classroom-scene ${workplace.color}">
+        <div class="classroom-topbar">
+          <span>${workplace.icon} ${workplace.name}</span>
+          <span>Find the IT</span>
+        </div>
+        <div class="workplace-grid">
+          ${workplace.items.map((item, index) => {
+            const selected = state.year2PlaceFound.has(index) ? " selected" : "";
+            return `
+              <button class="item-card scene-card${selected}" type="button" data-place-find-index="${index}">
+                <span class="card-icon" aria-hidden="true">${item.icon}</span>
+                <span class="card-name">${item.name}</span>
+              </button>
+            `;
+          }).join("")}
+        </div>
+      </div>
+      <div class="feedback" id="feedback">Click the IT.</div>
+    </section>
+  `;
+}
+
+function renderLesson3Help(activity) {
+  const workplace = getLesson3Workplace();
+  const item = workplace.helpItems[state.year2PlaceHelpIndex];
+
+  app.innerHTML = `
+    <section class="screen panel">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2PlaceHelpIndex + 1} of ${workplace.helpItems.length}</div>
+      </div>
+      <p class="prompt">${activity.prompt}</p>
+      <div class="item-display">
+        <div class="item-icon" aria-hidden="true">${item.icon}</div>
+        <div class="item-name">${item.name}</div>
+      </div>
+      <div class="answer-list">
+        ${item.choices.map((choice) => `
+          <button class="answer-button" type="button" data-place-help-choice="${choice}">${choice}</button>
+        `).join("")}
+      </div>
+      <div class="feedback" id="feedback">Choose an answer.</div>
+    </section>
+  `;
+}
+
+function renderLesson3Job(activity) {
+  const workplace = getLesson3Workplace();
+  const item = workplace.jobItems[state.year2JobIndex];
+
+  app.innerHTML = `
+    <section class="screen panel">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2JobIndex + 1} of ${workplace.jobItems.length}</div>
+      </div>
+      <p class="prompt">${activity.prompt}</p>
+      <div class="job-card">
+        <div class="item-icon" aria-hidden="true">${item.icon}</div>
+        <div class="item-name">${item.worker}</div>
+        <p class="note-line">${item.problem}</p>
+      </div>
+      <div class="answer-list">
+        ${item.choices.map((choice) => `
+          <button class="answer-button" type="button" data-place-job-choice="${choice}">${choice}</button>
+        `).join("")}
+      </div>
+      <div class="feedback" id="feedback">Choose the best IT.</div>
     </section>
   `;
 }
@@ -1229,6 +1732,112 @@ function handleLesson2Detective(choice) {
   }
 }
 
+function handleLesson3Place(placeKey) {
+  if (state.year2PlaceKey || state.year2PlaceAdvanceScheduled) return;
+
+  const place = lesson.workplaces.find((entry) => entry.key === placeKey);
+  if (!place) return;
+
+  state.year2PlaceKey = placeKey;
+  state.year2PlaceFound = new Set();
+  state.year2PlaceHelpIndex = 0;
+  state.year2JobIndex = 0;
+  awardStar("place", placeKey);
+  showFeedback(`Great choice! ${place.name}.`, "good");
+
+  state.year2PlaceAdvanceScheduled = true;
+  window.setTimeout(() => {
+    advanceYear2Activity();
+  }, 800);
+}
+
+function handleLesson3Find(index) {
+  if (state.year2FindAdvanceScheduled) return;
+
+  const workplace = getLesson3Workplace();
+  const item = workplace.items[index];
+  const key = `${state.year2PlaceKey}-${index}`;
+
+  if (!item) return;
+
+  if (!item.isTechnology) {
+    showFeedback("Not IT. Try another item.", "try");
+    return;
+  }
+
+  if (!state.year2PlaceFound.has(index)) {
+    state.year2PlaceFound.add(index);
+    awardStar("find3", key);
+  }
+
+  renderLesson3Find(getCurrentYear2Activity());
+  showFeedback(item.explanation, "good");
+
+  const total = workplace.items.filter((entry) => entry.isTechnology).length;
+  if (state.year2PlaceFound.size >= total && !state.year2FindAdvanceScheduled) {
+    state.year2FindAdvanceScheduled = true;
+    window.setTimeout(() => {
+      state.year2PlaceHelpIndex = 0;
+      advanceYear2Activity();
+    }, 900);
+  }
+}
+
+function handleLesson3Help(choice) {
+  if (state.year2HelpAdvanceScheduled) return;
+
+  const workplace = getLesson3Workplace();
+  const item = workplace.helpItems[state.year2PlaceHelpIndex];
+  const key = `${state.year2PlaceKey}-${state.year2PlaceHelpIndex}`;
+
+  if (!item) return;
+
+  if (choice === item.correct) {
+    awardStar("help3", key);
+    showFeedback(item.explanation, "good");
+    state.year2HelpAdvanceScheduled = true;
+    window.setTimeout(() => {
+      state.year2PlaceHelpIndex += 1;
+      state.year2HelpAdvanceScheduled = false;
+      if (state.year2PlaceHelpIndex >= workplace.helpItems.length) {
+        state.year2JobIndex = 0;
+        advanceYear2Activity();
+        return;
+      }
+      renderLesson3Help(getCurrentYear2Activity());
+    }, 900);
+  } else {
+    showFeedback("Try again.", "try");
+  }
+}
+
+function handleLesson3Job(choice) {
+  if (state.year2JobAdvanceScheduled) return;
+
+  const workplace = getLesson3Workplace();
+  const item = workplace.jobItems[state.year2JobIndex];
+  const key = `${state.year2PlaceKey}-${state.year2JobIndex}`;
+
+  if (!item) return;
+
+  if (choice === item.correct) {
+    awardStar("job3", key);
+    showFeedback(item.explanation, "good");
+    state.year2JobAdvanceScheduled = true;
+    window.setTimeout(() => {
+      state.year2JobIndex += 1;
+      state.year2JobAdvanceScheduled = false;
+      if (state.year2JobIndex >= workplace.jobItems.length) {
+        advanceYear2Activity();
+        return;
+      }
+      renderLesson3Job(getCurrentYear2Activity());
+    }, 900);
+  } else {
+    showFeedback("Try again.", "try");
+  }
+}
+
 function finishYear2Activity() {
   const activity = getCurrentYear2Activity();
   if (!activity) return;
@@ -1366,6 +1975,22 @@ app.addEventListener("click", (event) => {
 
   if (target.dataset.detectiveChoice) {
     handleLesson2Detective(target.dataset.detectiveChoice);
+  }
+
+  if (target.dataset.placeKey) {
+    handleLesson3Place(target.dataset.placeKey);
+  }
+
+  if (target.dataset.placeFindIndex) {
+    handleLesson3Find(Number(target.dataset.placeFindIndex));
+  }
+
+  if (target.dataset.placeHelpChoice) {
+    handleLesson3Help(target.dataset.placeHelpChoice);
+  }
+
+  if (target.dataset.placeJobChoice) {
+    handleLesson3Job(target.dataset.placeJobChoice);
   }
 
   if (target.dataset.action === "finish-year2-activity") {
