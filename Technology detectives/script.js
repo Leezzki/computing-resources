@@ -8,8 +8,8 @@ const SCHOOL_RULES = [
   "Log out when you finish."
 ];
 
-const FEEDBACK_PAUSE_MS = 1600;
-const LEVEL_ADVANCE_PAUSE_MS = 2200;
+const FEEDBACK_PAUSE_MS = 1800;
+const LEVEL_ADVANCE_PAUSE_MS = 2400;
 
 const LESSON_SETS = {
   year1: {
@@ -920,6 +920,33 @@ const LESSON_SETS = {
     testBank: [] // Filled just after the lesson data is defined.
   }
 };
+
+function putCorrectAnswerFirst(item) {
+  const answer = item.answer ?? item.correct;
+  if (!answer || !Array.isArray(item.choices)) return;
+
+  item.choices = [answer, ...item.choices.filter((choice) => choice !== answer)];
+}
+
+function normalizeLessonChoices(lessonData) {
+  if (!lessonData || typeof lessonData !== "object") return;
+
+  const visit = (value) => {
+    if (!value || typeof value !== "object") return;
+
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+      return;
+    }
+
+    putCorrectAnswerFirst(value);
+    Object.values(value).forEach(visit);
+  };
+
+  visit(lessonData);
+}
+
+Object.values(LESSON_SETS).forEach(normalizeLessonChoices);
 
 function shuffleArray(items) {
   const copy = items.slice();
