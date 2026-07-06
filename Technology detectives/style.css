@@ -322,6 +322,32 @@ h2 {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 250, 255, 0.96));
 }
 
+.spot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1.1rem 0;
+}
+
+.safety-card {
+  min-height: 8.8rem;
+  background: linear-gradient(180deg, #ffe7a9, #fff8dc);
+}
+
+.safety-card.selected {
+  background: linear-gradient(180deg, #ddf8e3, #c9f3d2);
+}
+
+.rule-pool {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rule-drop {
+  min-height: 9rem;
+  margin-top: 0.8rem;
+  background: #fffbe8;
+}
+
 .place-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -709,6 +735,8 @@ h2 {
   .drag-pool,
   .drop-grid.locations,
   .drop-grid.purposes,
+  .spot-grid,
+  .rule-pool,
   .classroom-grid,
   .place-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -748,6 +776,8 @@ h2 {
   .drag-pool,
   .drop-grid.locations,
   .drop-grid.purposes,
+  .spot-grid,
+  .rule-pool,
   .classroom-grid,
   .place-grid,
   .workplace-grid {

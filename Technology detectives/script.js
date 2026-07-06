@@ -1,5 +1,16 @@
 // Data lives near the top so teachers can edit or extend the lessons later.
 // Year 2 is now lesson-based, so a new Year 3 lesson can reuse the same activity framework.
+const SCHOOL_RULES = [
+  "Carry laptops with two hands.",
+  "No food or drink near laptops.",
+  "Only use teacher-approved websites.",
+  "Ask permission before taking photos.",
+  "Log out when you finish."
+];
+
+const FEEDBACK_PAUSE_MS = 1600;
+const LEVEL_ADVANCE_PAUSE_MS = 2200;
+
 const LESSON_SETS = {
   year1: {
     yearLabel: "Year 1",
@@ -61,6 +72,7 @@ const LESSON_SETS = {
     ]
   },
   year2Lesson1: {
+    lessonNumber: 1,
     yearLabel: "Year 2",
     menuTitle: "IT Explorer",
     title: "💻 IT Explorer",
@@ -161,6 +173,7 @@ const LESSON_SETS = {
     ]
   },
   year2Lesson2: {
+    lessonNumber: 2,
     yearLabel: "Year 2",
     menuTitle: "IT in School",
     title: "🏫 FSB IT Hunt",
@@ -346,6 +359,7 @@ const LESSON_SETS = {
     ]
   },
   year2Lesson3: {
+    lessonNumber: 3,
     yearLabel: "Year 2",
     menuTitle: "Future Jobs Explorer",
     title: "💼 Future Jobs Explorer",
@@ -694,10 +708,274 @@ const LESSON_SETS = {
         ]
       }
     ]
+  },
+  year2Lesson5: {
+    lessonNumber: 5,
+    yearLabel: "Year 2",
+    menuTitle: "IT Safety Academy",
+    title: "🛡️ IT Safety Academy",
+    subtitle: "Can you become an FSB IT Safety Expert?",
+    definition: "Keep people and tech safe.",
+    finalTitle: "FSB IT Safety Expert",
+    masterTitle: "Master IT Safety Expert",
+    finalMessage: "You know how to stay safe and look after technology.",
+    knowMessage: "I can keep people and technology safe.",
+    intro: "Can you become an FSB IT Safety Expert? Complete every challenge and keep everyone safe.",
+    activities: [
+      { key: "spot", type: "spot", title: "Spot the Problem", prompt: "Click what is unsafe." },
+      { key: "safe", type: "safe", title: "Safe or Unsafe?", prompt: "Choose SAFE or UNSAFE." },
+      { key: "next", type: "next", title: "What Happens Next?", prompt: "Choose what happens next." },
+      { key: "rule", type: "rule", title: "Finish the Rule", prompt: "Drag the missing word." },
+      { key: "test", type: "test", title: "FSB Safety Test", prompt: "Answer 10 questions." }
+    ],
+    scenes: [
+      {
+        title: "Drink beside a laptop",
+        icon: "🥤💻",
+        unsafe: true,
+        explanation: "Water can damage laptops."
+      },
+      {
+        title: "One hand carry",
+        icon: "🤏💻",
+        unsafe: true,
+        explanation: "Use two hands to carry a laptop."
+      },
+      {
+        title: "Running with laptop",
+        icon: "🏃💻",
+        unsafe: true,
+        explanation: "Walk carefully with a laptop."
+      },
+      {
+        title: "Pulling cables",
+        icon: "🧲🔌",
+        unsafe: true,
+        explanation: "Pulling cables can break equipment."
+      },
+      {
+        title: "Photo without asking",
+        icon: "📸❓",
+        unsafe: true,
+        explanation: "Always ask permission first."
+      },
+      {
+        title: "Safe laptop use",
+        icon: "✅💻",
+        unsafe: false,
+        explanation: "Yes! That is safe."
+      },
+      {
+        title: "Eating near keyboard",
+        icon: "🍪⌨️",
+        unsafe: true,
+        explanation: "Food can make computers dirty."
+      },
+      {
+        title: "Cables on the floor",
+        icon: "🪢⚠️",
+        unsafe: true,
+        explanation: "Cables should be kept tidy."
+      },
+      {
+        title: "Shared tablet time",
+        icon: "📱🤝",
+        unsafe: false,
+        explanation: "Yes! That is safe."
+      },
+      {
+        title: "Approved websites",
+        icon: "🌐✅",
+        unsafe: false,
+        explanation: "Yes! That is safe."
+      }
+    ],
+    safetyQuestions: [
+      {
+        prompt: "Using two hands to carry a laptop",
+        answer: "SAFE",
+        explanation: "Yes! Two hands is safer."
+      },
+      {
+        prompt: "Eating crisps over a keyboard",
+        answer: "UNSAFE",
+        explanation: "Food can make the keyboard dirty."
+      },
+      {
+        prompt: "Logging out after using a computer",
+        answer: "SAFE",
+        explanation: "Yes! Logging out is safe."
+      },
+      {
+        prompt: "Sharing your password",
+        answer: "UNSAFE",
+        explanation: "Passwords should stay secret."
+      },
+      {
+        prompt: "Walking carefully with a laptop",
+        answer: "SAFE",
+        explanation: "Yes! Walk carefully."
+      },
+      {
+        prompt: "Taking a photo after asking permission",
+        answer: "SAFE",
+        explanation: "Yes! Ask first."
+      },
+      {
+        prompt: "Leaving a laptop open on the floor",
+        answer: "UNSAFE",
+        explanation: "Someone could trip or break it."
+      },
+      {
+        prompt: "Using teacher-approved websites",
+        answer: "SAFE",
+        explanation: "Yes! Approved websites are safe."
+      },
+      {
+        prompt: "Keeping a drink far from a laptop",
+        answer: "SAFE",
+        explanation: "Yes! Keep drinks away."
+      },
+      {
+        prompt: "Pulling a cable to unplug it",
+        answer: "UNSAFE",
+        explanation: "Pull the plug, not the cable."
+      }
+    ],
+    nextQuestions: [
+      {
+        prompt: "A drink is beside the laptop.",
+        choices: ["Nothing happens.", "The drink spills onto the keyboard.", "The laptop becomes faster."],
+        answer: "The drink spills onto the keyboard.",
+        explanation: "Uh oh! The drink can spill."
+      },
+      {
+        prompt: "Tom tells everyone his password.",
+        choices: ["That's safe.", "Someone could use his account.", "The computer switches off."],
+        answer: "Someone could use his account.",
+        explanation: "A password must stay secret."
+      },
+      {
+        prompt: "A laptop has two hands on it.",
+        choices: ["It is safer.", "It disappears.", "It can swim."],
+        answer: "It is safer.",
+        explanation: "Yes! Two hands is safer."
+      },
+      {
+        prompt: "A photo is taken after asking first.",
+        choices: ["That is kind.", "The camera flies away.", "The screen turns green."],
+        answer: "That is kind.",
+        explanation: "Yes! Ask first."
+      },
+      {
+        prompt: "A cable is pulled quickly.",
+        choices: ["It may break.", "It makes cake.", "It becomes a pillow."],
+        answer: "It may break.",
+        explanation: "Pulling cables is not safe."
+      },
+      {
+        prompt: "A teacher-approved website is opened.",
+        choices: ["Good choice.", "The chair learns.", "The mouse sings."],
+        answer: "Good choice.",
+        explanation: "Yes! That is a good choice."
+      },
+      {
+        prompt: "A laptop is left on the floor.",
+        choices: ["Someone could trip.", "It becomes a hat.", "It makes rain."],
+        answer: "Someone could trip.",
+        explanation: "That is unsafe."
+      },
+      {
+        prompt: "A password is kept secret.",
+        choices: ["That is safe.", "The apple turns blue.", "The keyboard jumps."],
+        answer: "That is safe.",
+        explanation: "Yes! Keep passwords secret."
+      },
+      {
+        prompt: "A drink is moved away from the laptop.",
+        choices: ["Good idea.", "It starts a race.", "It grows legs."],
+        answer: "Good idea.",
+        explanation: "Yes! Drinks stay away."
+      },
+      {
+        prompt: "A message is sent kindly.",
+        choices: ["That is safe.", "The printer naps.", "The table barks."],
+        answer: "That is safe.",
+        explanation: "Kind messages are safe."
+      }
+    ],
+    ruleSentences: SCHOOL_RULES.map((rule) => {
+      const parts = {
+        "Carry laptops with two hands.": { sentence: "Always carry a laptop with _____ hands.", choices: ["two", "one", "five"], answer: "two", explanation: "Two hands is safer." },
+        "No food or drink near laptops.": { sentence: "Never eat or _____ near computers.", choices: ["drink", "dance", "sing"], answer: "drink", explanation: "Food and drink should stay away." },
+        "Only use teacher-approved websites.": { sentence: "Only use _____-approved websites.", choices: ["teacher", "friend", "toy"], answer: "teacher", explanation: "Teacher-approved websites are safe." },
+        "Ask permission before taking photos.": { sentence: "Always ask _____ before taking a photo.", choices: ["permission", "chocolate", "music"], answer: "permission", explanation: "Ask first." },
+        "Log out when you finish.": { sentence: "Always _____ out when you finish.", choices: ["log", "colour", "jump"], answer: "log", explanation: "Logging out keeps accounts safe." }
+      };
+      return {
+        rule,
+        ...parts[rule]
+      };
+    }),
+    testBank: [] // Filled just after the lesson data is defined.
   }
 };
 
-const YEAR2_LESSON_ORDER = ["year2Lesson1", "year2Lesson2", "year2Lesson3"];
+function shuffleArray(items) {
+  const copy = items.slice();
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function buildLesson5TestBank(lesson5) {
+  const spot = lesson5.scenes
+    .filter((scene) => scene.unsafe)
+    .map((scene) => ({
+      group: "spot",
+      prompt: scene.title,
+      choices: ["UNSAFE", "SAFE"],
+      answer: "UNSAFE",
+      explanation: scene.explanation
+    }));
+
+  const safe = lesson5.safetyQuestions.map((item) => ({
+    group: "safe",
+    prompt: item.prompt,
+    choices: item.answer === "SAFE" ? ["SAFE", "UNSAFE"] : ["UNSAFE", "SAFE"],
+    answer: item.answer,
+    explanation: item.explanation
+  }));
+
+  const next = lesson5.nextQuestions.map((item) => ({
+    group: "next",
+    prompt: item.prompt,
+    choices: [item.answer, ...item.choices.filter((choice) => choice !== item.answer)],
+    answer: item.answer,
+    explanation: item.explanation
+  }));
+
+  const rule = lesson5.ruleSentences.map((item) => ({
+    group: "rule",
+    prompt: item.sentence,
+    choices: [item.answer, ...item.choices.filter((choice) => choice !== item.answer)],
+    answer: item.answer,
+    explanation: item.explanation
+  }));
+
+  return shuffleArray([
+    ...shuffleArray(spot).slice(0, 3),
+    ...shuffleArray(safe).slice(0, 3),
+    ...shuffleArray(next).slice(0, 2),
+    ...shuffleArray(rule).slice(0, 2)
+  ]);
+}
+
+LESSON_SETS.year2Lesson5.testBank = buildLesson5TestBank(LESSON_SETS.year2Lesson5);
+
+const YEAR2_LESSON_ORDER = ["year2Lesson1", "year2Lesson2", "year2Lesson3", "year2Lesson5"];
 
 let currentLessonKey = "";
 let lesson = null;
@@ -730,6 +1008,14 @@ function getFreshState() {
     year2FindAdvanceScheduled: false,
     year2HelpAdvanceScheduled: false,
     year2JobAdvanceScheduled: false,
+    year2SafetySceneIndex: 0,
+    year2SafetySceneFound: new Set(),
+    year2SafetyQuestionIndex: 0,
+    year2SafetyNextIndex: 0,
+    year2SafetyRuleIndex: 0,
+    year2SafetyTestIndex: 0,
+    year2SafetyTestScore: 0,
+    year2SafetyTestQuestions: [],
     selectedHunt: new Set(),
     sortedItems: {},
     placedLocations: {},
@@ -751,7 +1037,12 @@ function getFreshState() {
       place: new Set(),
       find3: new Set(),
       help3: new Set(),
-      job3: new Set()
+      job3: new Set(),
+      safetySpot: new Set(),
+      safetyCheck: new Set(),
+      safetyNext: new Set(),
+      safetyRule: new Set(),
+      safetyTest: new Set()
     }
   };
 }
@@ -793,6 +1084,14 @@ function getTotalStars() {
       workplace.jobItems.length;
   }
 
+  if (currentLessonKey === "year2Lesson5") {
+    return lesson.scenes.filter((scene) => scene.unsafe).length +
+      lesson.safetyQuestions.length +
+      lesson.nextQuestions.length +
+      lesson.ruleSentences.length +
+      10;
+  }
+
   return 0;
 }
 
@@ -814,7 +1113,7 @@ function render() {
     return;
   }
 
-  if (currentLessonKey === "year2Lesson1" || currentLessonKey === "year2Lesson2" || currentLessonKey === "year2Lesson3") {
+  if (currentLessonKey === "year2Lesson1" || currentLessonKey === "year2Lesson2" || currentLessonKey === "year2Lesson3" || currentLessonKey === "year2Lesson5") {
     renderYear2();
     return;
   }
@@ -842,7 +1141,16 @@ function renderYear2() {
       renderYear2Lesson3Welcome();
       return;
     }
+    if (currentLessonKey === "year2Lesson5") {
+      renderYear2Lesson5Welcome();
+      return;
+    }
     renderYear2Welcome();
+    return;
+  }
+
+  if (state.screen === "practice") {
+    renderLesson5Practice();
     return;
   }
 
@@ -879,6 +1187,16 @@ function renderYear2() {
       renderLesson3Help(activity);
     } else if (currentLessonKey === "year2Lesson3" && activity.type === "job") {
       renderLesson3Job(activity);
+    } else if (currentLessonKey === "year2Lesson5" && activity.type === "spot") {
+      renderLesson5Spot(activity);
+    } else if (currentLessonKey === "year2Lesson5" && activity.type === "safe") {
+      renderLesson5Safe(activity);
+    } else if (currentLessonKey === "year2Lesson5" && activity.type === "next") {
+      renderLesson5Next(activity);
+    } else if (currentLessonKey === "year2Lesson5" && activity.type === "rule") {
+      renderLesson5Rule(activity);
+    } else if (currentLessonKey === "year2Lesson5" && activity.type === "test") {
+      renderLesson5Test(activity);
     } else {
       renderFinal();
     }
@@ -915,7 +1233,7 @@ function renderYear2Menu() {
           const lessonData = LESSON_SETS[key];
           return `
             <button class="mission-button year2" type="button" data-year2-lesson="${key}">
-              Lesson ${index + 1}<br>${lessonData.menuTitle}
+              Lesson ${lessonData.lessonNumber || (index + 1)}<br>${lessonData.menuTitle}
             </button>
           `;
         }).join("")}
@@ -961,6 +1279,18 @@ function renderYear2Welcome() {
 }
 
 function renderYear2Lesson3Welcome() {
+  app.innerHTML = `
+    <section class="screen center panel">
+      <h1>${lesson.title}</h1>
+      <p class="subtitle">${lesson.intro}</p>
+      <div class="definition">${lesson.definition}</div>
+      <br>
+      <button class="big-button" type="button" data-action="start-year2">Start</button>
+    </section>
+  `;
+}
+
+function renderYear2Lesson5Welcome() {
   app.innerHTML = `
     <section class="screen center panel">
       <h1>${lesson.title}</h1>
@@ -1386,6 +1716,137 @@ function renderLesson3Job(activity) {
   `;
 }
 
+function prepareLesson5Test() {
+  state.year2SafetyTestQuestions = buildLesson5TestBank(LESSON_SETS.year2Lesson5);
+  state.year2SafetyTestIndex = 0;
+  state.year2SafetyTestScore = 0;
+}
+
+function getLesson5Question(type) {
+  const items = {
+    spot: LESSON_SETS.year2Lesson5.scenes,
+    safe: LESSON_SETS.year2Lesson5.safetyQuestions,
+    next: LESSON_SETS.year2Lesson5.nextQuestions,
+    rule: LESSON_SETS.year2Lesson5.ruleSentences
+  };
+  return items[type];
+}
+
+function renderLesson5Spot(activity) {
+  app.innerHTML = `
+    <section class="screen panel wide-screen scene-panel">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2SafetySceneFound.size} of ${LESSON_SETS.year2Lesson5.scenes.filter((scene) => scene.unsafe).length}</div>
+      </div>
+      <p class="prompt">${activity.prompt}</p>
+      <div class="spot-grid">
+        ${LESSON_SETS.year2Lesson5.scenes.map((scene, index) => {
+          const selected = state.year2SafetySceneFound.has(index) ? " selected" : "";
+          return `
+            <button class="item-card safety-card${selected}" type="button" data-safety-spot-index="${index}">
+              <span class="card-icon" aria-hidden="true">${scene.icon}</span>
+              <span class="card-name">${scene.title}</span>
+            </button>
+          `;
+        }).join("")}
+      </div>
+      <div class="feedback" id="feedback">Click the unsafe ones.</div>
+    </section>
+  `;
+}
+
+function renderLesson5Safe(activity) {
+  const item = LESSON_SETS.year2Lesson5.safetyQuestions[state.year2SafetyQuestionIndex];
+  app.innerHTML = `
+    <section class="screen panel">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2SafetyQuestionIndex + 1} of ${LESSON_SETS.year2Lesson5.safetyQuestions.length}</div>
+      </div>
+      <p class="prompt">${item.prompt}</p>
+      <div class="button-row">
+        <button class="choice-button tech" type="button" data-safety-check="SAFE">SAFE</button>
+        <button class="choice-button not-tech" type="button" data-safety-check="UNSAFE">UNSAFE</button>
+      </div>
+      <div class="feedback" id="feedback">Choose SAFE or UNSAFE.</div>
+    </section>
+  `;
+}
+
+function renderLesson5Next(activity) {
+  const item = LESSON_SETS.year2Lesson5.nextQuestions[state.year2SafetyNextIndex];
+  app.innerHTML = `
+    <section class="screen panel">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2SafetyNextIndex + 1} of ${LESSON_SETS.year2Lesson5.nextQuestions.length}</div>
+      </div>
+      <p class="prompt">${item.prompt}</p>
+      <div class="answer-list">
+        ${item.choices.map((choice) => `
+          <button class="answer-button" type="button" data-safety-next-choice="${choice}">${choice}</button>
+        `).join("")}
+      </div>
+      <div class="feedback" id="feedback">Choose one.</div>
+    </section>
+  `;
+}
+
+function renderLesson5Rule(activity) {
+  const item = LESSON_SETS.year2Lesson5.ruleSentences[state.year2SafetyRuleIndex];
+  app.innerHTML = `
+    <section class="screen panel wide-screen">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2SafetyRuleIndex + 1} of ${LESSON_SETS.year2Lesson5.ruleSentences.length}</div>
+      </div>
+      <p class="prompt">${activity.prompt}</p>
+      <div class="definition">${item.sentence}</div>
+      <div class="drag-pool rule-pool">
+        ${item.choices.map((choice, index) => `
+          <button class="item-card drag-card" type="button" draggable="true" data-drag-group="safetyRule" data-drag-index="${index}">
+            <span class="card-name">${choice}</span>
+          </button>
+        `).join("")}
+      </div>
+      <button class="drop-box rule-drop" type="button" data-drop-group="safetyRule" data-drop-key="blank">Drop here</button>
+      <div class="feedback" id="feedback">Drag the missing word.</div>
+    </section>
+  `;
+}
+
+function renderLesson5Test(activity) {
+  const item = state.year2SafetyTestQuestions[state.year2SafetyTestIndex];
+  app.innerHTML = `
+    <section class="screen panel">
+      <div class="activity-header">
+        <h2>${activity.title}</h2>
+        <div class="step-label">${state.year2SafetyTestIndex + 1} of ${state.year2SafetyTestQuestions.length}</div>
+      </div>
+      <p class="prompt">${item.prompt}</p>
+      <div class="answer-list">
+        ${item.choices.map((choice) => `
+          <button class="answer-button" type="button" data-safety-test-choice="${choice}">${choice}</button>
+        `).join("")}
+      </div>
+      <div class="feedback" id="feedback">Choose an answer.</div>
+    </section>
+  `;
+}
+
+function renderLesson5Practice() {
+  app.innerHTML = `
+    <section class="screen center panel">
+      <h1>Nearly there!</h1>
+      <p class="subtitle">Let's practise again.</p>
+      <div class="definition">Keep looking after technology.</div>
+      <br>
+      <button class="big-button" type="button" data-action="restart-year2-lesson5">Try Again</button>
+    </section>
+  `;
+}
+
 function renderDragCard(item, index, group, done) {
   return `
     <button class="item-card drag-card${done ? " done" : ""}" type="button" draggable="${done ? "false" : "true"}" data-drag-group="${group}" data-drag-index="${index}" ${done ? "disabled" : ""}>
@@ -1496,7 +1957,7 @@ function handleIdentify(isTechnologyChoice) {
       state.identifyIndex += 1;
       state.screen = state.identifyIndex >= lesson.identifyItems.length ? "help" : "identify";
       render();
-    }, 900);
+    }, FEEDBACK_PAUSE_MS);
   } else {
     showFeedback("Not quite. Remember, technology is made by people to help us.", "try");
   }
@@ -1512,7 +1973,7 @@ function handleHelp(choice) {
       state.helpIndex += 1;
       state.screen = state.helpIndex >= lesson.helpItems.length ? "hunt" : "help";
       render();
-    }, 900);
+    }, FEEDBACK_PAUSE_MS);
   } else {
     showFeedback("Good try. Choose how it helps us.", "try");
   }
@@ -1563,7 +2024,7 @@ function checkHuntAnswers() {
     window.setTimeout(() => {
       state.screen = "final";
       render();
-    }, 1000);
+    }, LEVEL_ADVANCE_PAUSE_MS);
   }
 }
 
@@ -1635,6 +2096,10 @@ function handleYear2Drop(group, index, key) {
     renderLesson2Build(getCurrentYear2Activity());
     showFeedback(lesson.buildItems[index].explanation, "good");
   }
+
+  if (group === "safetyRule") {
+    handleLesson5RuleDrop(index, key);
+  }
 }
 
 function handleQuick(category) {
@@ -1647,7 +2112,7 @@ function handleQuick(category) {
       state.quickIndex += 1;
       state.screen = state.quickIndex >= lesson.quickItems.length ? "final" : "activity";
       render();
-    }, 1100);
+    }, FEEDBACK_PAUSE_MS);
   } else {
     showFeedback(`Not quite. ${item.explanation}`, "try");
   }
@@ -1669,7 +2134,7 @@ function handleLesson2Find(index) {
     if (state.year2FindFound.size >= totalTechnology) {
       window.setTimeout(() => {
         advanceYear2Activity();
-      }, 1000);
+      }, LEVEL_ADVANCE_PAUSE_MS);
     }
   } else {
     showFeedback("Good try. That one is not Information Technology.", "try");
@@ -1694,7 +2159,7 @@ function handleLesson2User(choice) {
       }
 
       renderLesson2Users(getCurrentYear2Activity());
-    }, 900);
+    }, FEEDBACK_PAUSE_MS);
   } else {
     showFeedback("Good try. Think about who usually uses this device.", "try");
   }
@@ -1726,7 +2191,7 @@ function handleLesson2Detective(choice) {
         return;
       }
       renderLesson2Detective(getCurrentYear2Activity());
-    }, 1000);
+    }, FEEDBACK_PAUSE_MS);
   } else {
     showFeedback("Good try. Choose the best way it helps.", "try");
   }
@@ -1748,7 +2213,7 @@ function handleLesson3Place(placeKey) {
   state.year2PlaceAdvanceScheduled = true;
   window.setTimeout(() => {
     advanceYear2Activity();
-  }, 800);
+  }, LEVEL_ADVANCE_PAUSE_MS);
 }
 
 function handleLesson3Find(index) {
@@ -1779,7 +2244,7 @@ function handleLesson3Find(index) {
     window.setTimeout(() => {
       state.year2PlaceHelpIndex = 0;
       advanceYear2Activity();
-    }, 900);
+    }, LEVEL_ADVANCE_PAUSE_MS);
   }
 }
 
@@ -1805,7 +2270,7 @@ function handleLesson3Help(choice) {
         return;
       }
       renderLesson3Help(getCurrentYear2Activity());
-    }, 900);
+    }, FEEDBACK_PAUSE_MS);
   } else {
     showFeedback("Try again.", "try");
   }
@@ -1832,10 +2297,148 @@ function handleLesson3Job(choice) {
         return;
       }
       renderLesson3Job(getCurrentYear2Activity());
-    }, 900);
+    }, FEEDBACK_PAUSE_MS);
   } else {
     showFeedback("Try again.", "try");
   }
+}
+
+function startLesson5Test() {
+  prepareLesson5Test();
+  advanceYear2Activity();
+}
+
+function handleLesson5Spot(index) {
+  const scene = LESSON_SETS.year2Lesson5.scenes[index];
+  if (!scene) return;
+
+  if (scene.unsafe) {
+    if (!state.year2SafetySceneFound.has(index)) {
+      state.year2SafetySceneFound.add(index);
+      awardStar("safetySpot", index);
+    }
+    renderLesson5Spot(getCurrentYear2Activity());
+    showFeedback(scene.explanation, "good");
+
+    const total = LESSON_SETS.year2Lesson5.scenes.filter((item) => item.unsafe).length;
+    if (state.year2SafetySceneFound.size >= total) {
+      window.setTimeout(() => {
+        state.year2SafetyQuestionIndex = 0;
+        advanceYear2Activity();
+      }, LEVEL_ADVANCE_PAUSE_MS);
+    }
+  } else {
+    showFeedback(scene.explanation, "good");
+  }
+}
+
+function handleLesson5Safe(choice) {
+  const item = LESSON_SETS.year2Lesson5.safetyQuestions[state.year2SafetyQuestionIndex];
+  if (!item) return;
+
+  if (choice === item.answer) {
+    awardStar("safetyCheck", state.year2SafetyQuestionIndex);
+    showFeedback(item.explanation, "good");
+    window.setTimeout(() => {
+      state.year2SafetyQuestionIndex += 1;
+      if (state.year2SafetyQuestionIndex >= LESSON_SETS.year2Lesson5.safetyQuestions.length) {
+        state.year2SafetyNextIndex = 0;
+        advanceYear2Activity();
+        return;
+      }
+      renderLesson5Safe(getCurrentYear2Activity());
+    }, FEEDBACK_PAUSE_MS);
+  } else {
+    showFeedback("Try again.", "try");
+  }
+}
+
+function handleLesson5Next(choice) {
+  const item = LESSON_SETS.year2Lesson5.nextQuestions[state.year2SafetyNextIndex];
+  if (!item) return;
+
+  if (choice === item.answer) {
+    awardStar("safetyNext", state.year2SafetyNextIndex);
+    showFeedback(item.explanation, "good");
+    window.setTimeout(() => {
+      state.year2SafetyNextIndex += 1;
+      if (state.year2SafetyNextIndex >= LESSON_SETS.year2Lesson5.nextQuestions.length) {
+        state.year2SafetyRuleIndex = 0;
+        advanceYear2Activity();
+        return;
+      }
+      renderLesson5Next(getCurrentYear2Activity());
+    }, FEEDBACK_PAUSE_MS);
+  } else {
+    showFeedback("Try again.", "try");
+  }
+}
+
+function handleLesson5RuleDrop(index, key) {
+  const item = LESSON_SETS.year2Lesson5.ruleSentences[state.year2SafetyRuleIndex];
+  if (!item || key !== "blank") return;
+
+  const choice = item.choices[index];
+
+  if (choice === item.answer) {
+    awardStar("safetyRule", `${state.year2SafetyRuleIndex}-${index}`);
+    showFeedback(item.explanation, "good");
+    window.setTimeout(() => {
+      state.year2SafetyRuleIndex += 1;
+      if (state.year2SafetyRuleIndex >= LESSON_SETS.year2Lesson5.ruleSentences.length) {
+        advanceYear2Activity();
+        return;
+      }
+      renderLesson5Rule(getCurrentYear2Activity());
+    }, FEEDBACK_PAUSE_MS);
+  } else {
+    showFeedback("Try again.", "try");
+  }
+}
+
+function handleLesson5Test(choice) {
+  const item = state.year2SafetyTestQuestions[state.year2SafetyTestIndex];
+  if (!item) return;
+
+  if (choice === item.answer) {
+    state.year2SafetyTestScore += 1;
+    awardStar("safetyTest", state.year2SafetyTestIndex);
+    showFeedback(item.explanation, "good");
+  } else {
+    showFeedback(item.explanation, "try");
+  }
+
+  const delay = state.year2SafetyTestIndex + 1 >= state.year2SafetyTestQuestions.length
+    ? LEVEL_ADVANCE_PAUSE_MS
+    : FEEDBACK_PAUSE_MS;
+
+  window.setTimeout(() => {
+    state.year2SafetyTestIndex += 1;
+    if (state.year2SafetyTestIndex >= state.year2SafetyTestQuestions.length) {
+      if (state.year2SafetyTestScore >= 8) {
+        state.screen = "final";
+      } else {
+        state.screen = "practice";
+      }
+      render();
+      return;
+    }
+
+    renderLesson5Test(getCurrentYear2Activity());
+  }, delay);
+}
+
+function resetYear2Lesson5() {
+  state.year2SafetySceneIndex = 0;
+  state.year2SafetySceneFound = new Set();
+  state.year2SafetyQuestionIndex = 0;
+  state.year2SafetyNextIndex = 0;
+  state.year2SafetyRuleIndex = 0;
+  state.year2SafetyTestIndex = 0;
+  state.year2SafetyTestScore = 0;
+  state.year2SafetyTestQuestions = buildLesson5TestBank(LESSON_SETS.year2Lesson5);
+  state.screen = "welcome";
+  render();
 }
 
 function finishYear2Activity() {
@@ -1895,6 +2498,13 @@ function advanceYear2Activity() {
     return;
   }
 
+  if (currentLessonKey === "year2Lesson5") {
+    const nextActivity = lesson.activities[state.year2ActivityIndex];
+    if (nextActivity && nextActivity.type === "test") {
+      prepareLesson5Test();
+    }
+  }
+
   state.screen = "activity";
   render();
 }
@@ -1924,6 +2534,16 @@ app.addEventListener("click", (event) => {
   }
 
   if (target.dataset.action === "start-year2") {
+    if (currentLessonKey === "year2Lesson5") {
+      state.year2ActivityIndex = 0;
+      state.year2SafetySceneFound = new Set();
+      state.year2SafetyQuestionIndex = 0;
+      state.year2SafetyNextIndex = 0;
+      state.year2SafetyRuleIndex = 0;
+      state.year2SafetyTestIndex = 0;
+      state.year2SafetyTestScore = 0;
+    }
+
     state.screen = "activity";
     render();
   }
@@ -1993,9 +2613,30 @@ app.addEventListener("click", (event) => {
     handleLesson3Job(target.dataset.placeJobChoice);
   }
 
+  if (target.dataset.safetySpotIndex) {
+    handleLesson5Spot(Number(target.dataset.safetySpotIndex));
+  }
+
+  if (target.dataset.safetyCheck) {
+    handleLesson5Safe(target.dataset.safetyCheck);
+  }
+
+  if (target.dataset.safetyNextChoice) {
+    handleLesson5Next(target.dataset.safetyNextChoice);
+  }
+
+  if (target.dataset.safetyTestChoice) {
+    handleLesson5Test(target.dataset.safetyTestChoice);
+  }
+
   if (target.dataset.action === "finish-year2-activity") {
     finishYear2Activity();
   }
+
+  if (target.dataset.action === "restart-year2-lesson5") {
+    resetYear2Lesson5();
+  }
+
 });
 
 app.addEventListener("dragstart", (event) => {
