@@ -350,6 +350,163 @@
       font-weight: 700;
     }
 
+    .product-icon {
+      width: 92px;
+      height: 92px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fff2c9, #ffe7a2);
+      font-size: 3.2rem;
+      line-height: 1;
+      margin-bottom: 10px;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.65);
+    }
+
+    .card-disabled {
+      opacity: 0.48;
+      filter: grayscale(0.9);
+    }
+
+    .card-disabled button,
+    .card-disabled .btn-option {
+      pointer-events: none;
+    }
+
+    .till-display {
+      min-height: 210px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #f5f9ff, #edf6ff);
+      border: 3px dashed rgba(92, 142, 207, 0.35);
+    }
+
+    .till-display.empty {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .till-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      margin: 8px 0 6px;
+    }
+
+    .till-price {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      color: #7b5900;
+      margin: 0;
+    }
+
+    .scan-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .scan-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .scan-card .button-row {
+      margin-top: 0;
+    }
+
+    .receipt-summary {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: #fffaf0;
+      border: 2px solid rgba(255, 203, 77, 0.55);
+      font-weight: 700;
+    }
+
+    .match-board {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .match-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .barcode-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .match-card {
+      display: grid;
+      gap: 8px;
+      text-align: left;
+      width: 100%;
+      min-height: 120px;
+      padding: 16px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #ffffff, #f8fffb);
+      border: 3px solid #ddeadd;
+      box-shadow: 0 8px 0 rgba(34, 48, 60, 0.06);
+    }
+
+    .match-card .match-label {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .barcode-card {
+      width: 100%;
+      min-height: 96px;
+      padding: 14px 16px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #ffffff, #f5fbff);
+      border: 3px solid #d4e6fb;
+      box-shadow: 0 8px 0 rgba(34, 48, 60, 0.06);
+      text-align: center;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    .barcode-card small {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .match-selected {
+      outline: 5px solid rgba(255, 138, 61, 0.3);
+      border-color: #ff8a3d;
+    }
+
+    .match-complete {
+      background: linear-gradient(180deg, #dcfbe9, #c8f3d8);
+      border-color: #72c88d;
+    }
+
+    .match-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: #fff5cf;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #6c4c00;
+      margin-bottom: 10px;
+    }
+
     .choices {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -496,7 +653,8 @@
     @media (max-width: 900px) {
       .hero-grid,
       .grid-2,
-      .receipt-wrap {
+      .receipt-wrap,
+      .match-board {
         grid-template-columns: 1fr;
       }
 
@@ -543,8 +701,8 @@
         <p class="subtitle">Can you help the till find the product and price?</p>
       </div>
       <div class="star-meter" aria-live="polite">
-        <span class="stars" id="starVisual" aria-hidden="true">☆☆☆☆☆☆☆☆</span>
-        <span><span id="starCount">0</span>/<span id="starTotal">8</span> stars</span>
+        <span class="stars" id="starVisual" aria-hidden="true">☆☆☆☆☆☆☆☆☆☆☆☆☆</span>
+        <span><span id="starCount">0</span>/<span id="starTotal">13</span> stars</span>
       </div>
     </header>
 
@@ -553,21 +711,24 @@
 
   <div id="confetti" aria-hidden="true"></div>
 
-  <script>
-    // The product data is easy to extend later.
-    const products = [
-      { name: "Apple Juice", barcode: "1001", price: 25 },
-      { name: "Banana", barcode: "1002", price: 10 },
-      { name: "Pencil", barcode: "1003", price: 8 }
+    <script>
+    // One editable product list for all supermarket activities.
+    const PRODUCTS = [
+      { name: "Apple Juice", barcode: "1001", price: 25, icon: "🧃" },
+      { name: "Banana", barcode: "1002", price: 10, icon: "🍌" },
+      { name: "Milk", barcode: "1003", price: 18, icon: "🥛" },
+      { name: "Bread", barcode: "1004", price: 30, icon: "🍞" },
+      { name: "Eggs", barcode: "1005", price: 42, icon: "🥚" },
+      { name: "Rice", barcode: "1006", price: 55, icon: "🍚" },
+      { name: "Noodles", barcode: "1007", price: 20, icon: "🍜" },
+      { name: "Cereal", barcode: "1008", price: 48, icon: "🥣" },
+      { name: "Yogurt", barcode: "1009", price: 22, icon: "🍨" },
+      { name: "Orange", barcode: "1010", price: 15, icon: "🍊" },
+      { name: "Soap", barcode: "1011", price: 28, icon: "🧼" },
+      { name: "Pencil", barcode: "1012", price: 8, icon: "✏️" }
     ];
 
-    // Simple arrays for teachers who want to see the key lesson data clearly.
-    const productNames = products.map((item) => item.name);
-    const barcodeNumbers = products.map((item) => item.barcode);
-    const priceNumbers = products.map((item) => item.price);
-    const receiptItems = products.slice(0, 3);
-
-    const quizQuestions = [
+    const QUIZ_QUESTIONS = [
       {
         question: "Why are barcode scanners useful?",
         options: [
@@ -597,7 +758,7 @@
       }
     ];
 
-    const totalStars = 2 + receiptItems.length + quizQuestions.length;
+    const TOTAL_STARS = 1 + 3 + 6 + QUIZ_QUESTIONS.length;
 
     const state = {
       screen: "welcome",
@@ -607,28 +768,33 @@
       systemMessage: "",
       seenParts: new Set(),
       activity2: {
-        revealed: false,
-        solved: false,
-        feedback: "",
-        feedbackBad: false
-      },
-      activity3: {
+        item: null,
+        scanning: false,
         solved: false,
         feedback: "",
         feedbackBad: false
       },
       receipt: {
-        index: 0,
-        revealed: false,
-        locked: false,
+        items: [],
+        scanned: {},
+        scanning: {},
         lines: [],
-        solvedFlags: [false, false, false],
+        feedback: "",
+        feedbackBad: false
+      },
+      match: {
+        products: [],
+        barcodes: [],
+        selectedProduct: "",
+        selectedBarcode: "",
+        matched: {},
         feedback: "",
         feedbackBad: false
       },
       quiz: {
+        order: [],
         index: 0,
-        solvedFlags: [false, false, false],
+        solvedFlags: {},
         feedback: "",
         feedbackBad: false,
         locked: false
@@ -641,10 +807,37 @@
     const starTotalEl = document.getElementById("starTotal");
     const confettiEl = document.getElementById("confetti");
 
+    let audioContext = null;
+
+    function shuffleArray(list) {
+      const copy = list.slice();
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function cloneProduct(product) {
+      return { ...product };
+    }
+
+    function pickRandomProduct() {
+      return shuffleArray(PRODUCTS)[0];
+    }
+
+    function pickUniqueProducts(count) {
+      return shuffleArray(PRODUCTS).slice(0, count);
+    }
+
+    function findProductByBarcode(barcode) {
+      return PRODUCTS.find((product) => product.barcode === barcode) || null;
+    }
+
     function updateStars() {
-      starTotalEl.textContent = totalStars;
+      starTotalEl.textContent = TOTAL_STARS;
       starCountEl.textContent = state.stars;
-      starVisualEl.textContent = "⭐".repeat(state.stars) + "☆".repeat(Math.max(0, totalStars - state.stars));
+      starVisualEl.textContent = "⭐".repeat(state.stars) + "☆".repeat(Math.max(0, TOTAL_STARS - state.stars));
     }
 
     function awardStar(flagContainer, key) {
@@ -664,6 +857,107 @@
       }, delay);
     }
 
+    function playBeep() {
+      const Context = window.AudioContext || window.webkitAudioContext;
+      if (!Context) return;
+      if (!audioContext) {
+        audioContext = new Context();
+      }
+      if (audioContext.state === "suspended") {
+        audioContext.resume();
+      }
+
+      const now = audioContext.currentTime;
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = "square";
+      oscillator.frequency.setValueAtTime(880, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.09, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.2);
+    }
+
+    function playMatchSound(kind) {
+      const Context = window.AudioContext || window.webkitAudioContext;
+      if (!Context) return;
+      if (!audioContext) {
+        audioContext = new Context();
+      }
+      if (audioContext.state === "suspended") {
+        audioContext.resume();
+      }
+
+      const now = audioContext.currentTime;
+      const notes = kind === "correct"
+        ? [784, 988]
+        : [220, 196];
+      const durations = kind === "correct"
+        ? [0.12, 0.16]
+        : [0.14, 0.18];
+      const wave = kind === "correct" ? "triangle" : "square";
+
+      notes.forEach((frequency, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const start = now + index * 0.11;
+        oscillator.type = wave;
+        oscillator.frequency.setValueAtTime(frequency, start);
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(kind === "correct" ? 0.08 : 0.06, start + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + durations[index]);
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start(start);
+        oscillator.stop(start + durations[index] + 0.02);
+      });
+    }
+
+    function createRunState() {
+      const scanItem = cloneProduct(pickRandomProduct());
+      const receiptItems = pickUniqueProducts(3).map(cloneProduct);
+      const matchProducts = pickUniqueProducts(6).map(cloneProduct);
+
+      state.activity2 = {
+        item: scanItem,
+        scanning: false,
+        solved: false,
+        feedback: "Tap Scan to read the barcode.",
+        feedbackBad: false
+      };
+
+      state.receipt = {
+        items: receiptItems,
+        scanned: {},
+        scanning: {},
+        lines: [],
+        feedback: "Scan each item to build the receipt.",
+        feedbackBad: false
+      };
+
+      state.match = {
+        products: shuffleArray(matchProducts),
+        barcodes: shuffleArray(matchProducts.map((product) => product.barcode)),
+        selectedProduct: "",
+        selectedBarcode: "",
+        matched: {},
+        feedback: "Match a product card to a barcode card.",
+        feedbackBad: false
+      };
+
+      state.quiz = {
+        order: shuffleArray(QUIZ_QUESTIONS),
+        index: 0,
+        solvedFlags: {},
+        feedback: "Pick one answer.",
+        feedbackBad: false,
+        locked: false
+      };
+    }
+
     function resetGame() {
       state.runId += 1;
       state.screen = "welcome";
@@ -671,40 +965,9 @@
       state.confettiLaunched = false;
       state.systemMessage = "";
       state.seenParts = new Set();
-      state.activity2 = {
-        revealed: false,
-        solved: false,
-        feedback: "",
-        feedbackBad: false
-      };
-      state.activity3 = {
-        solved: false,
-        feedback: "",
-        feedbackBad: false
-      };
-      state.receipt = {
-        index: 0,
-        revealed: false,
-        locked: false,
-        lines: [],
-        solvedFlags: [false, false, false],
-        feedback: "",
-        feedbackBad: false
-      };
-      state.quiz = {
-        index: 0,
-        solvedFlags: [false, false, false],
-        feedback: "",
-        feedbackBad: false,
-        locked: false
-      };
+      createRunState();
       confettiEl.innerHTML = "";
       updateStars();
-      render();
-    }
-
-    function nextScreen(name) {
-      state.screen = name;
       render();
     }
 
@@ -720,12 +983,8 @@
       return parts[part] || "";
     }
 
-    function currentReceiptItem() {
-      return receiptItems[state.receipt.index];
-    }
-
     function currentQuizItem() {
-      return quizQuestions[state.quiz.index];
+      return state.quiz.order[state.quiz.index];
     }
 
     function launchConfetti() {
@@ -794,86 +1053,44 @@
     }
 
     function renderScanItem() {
-      const item = receiptItems[0];
-      const options = products.map((choice) => `
-        <button
-          class="btn-option ${state.activity2.solved ? (choice.name === item.name ? "correct" : "") : ""}"
-          data-action="choose-product"
-          data-value="${choice.name}"
-          ${state.activity2.solved ? "disabled" : ""}
-        >
-          ${choice.name}
-        </button>
-      `).join("");
-
+      const item = state.activity2.item;
       return `
         <section class="panel">
           <h2 class="section-title">Activity 2: Scan the item</h2>
-          <p class="section-note">Look at the barcode. Then choose the matching product.</p>
+          <p class="section-note">Press Scan. The till will show the product and the price.</p>
 
           <div class="grid-2">
-            <div class="product-card">
+            <div class="product-card ${state.activity2.solved ? "card-disabled" : ""}">
+              <div class="product-icon" aria-hidden="true">${item.icon}</div>
               <h3>${item.name}</h3>
-              <p class="section-note" style="margin-bottom: 0;">This is the item card.</p>
-              <p class="barcode">Barcode: ${item.barcode}</p>
-              ${state.activity2.revealed ? `<div class="scan-read">Scanner reads: ${item.barcode}</div>` : ""}
+              <p class="section-note" style="margin-bottom: 0;">Barcode: ${item.barcode}</p>
               <div class="button-row" style="margin-top: 16px;">
-                <button class="btn-primary" data-action="scan-item" ${state.activity2.revealed ? "disabled" : ""}>Scan</button>
+                <button class="btn-primary" data-action="scan-item" ${state.activity2.scanning || state.activity2.solved ? "disabled" : ""}>
+                  ${state.activity2.scanning ? "Beep..." : state.activity2.solved ? "Scanned" : "Scan"}
+                </button>
               </div>
+              <p class="feedback ${state.activity2.feedbackBad ? "bad" : ""}" aria-live="polite">${state.activity2.feedback}</p>
             </div>
 
             <div class="product-card">
-              <h3>Choose the product</h3>
-              <div class="choices">
-                ${options}
+              <h3>Till display</h3>
+              <div class="till-display ${state.activity2.solved ? "" : "empty"}" aria-live="polite">
+                ${state.activity2.solved ? `
+                  <div>
+                    <div class="product-icon" style="margin: 0 auto 10px;">${item.icon}</div>
+                    <div class="till-name">${item.name}</div>
+                    <p class="till-price">${item.price} baht</p>
+                  </div>
+                ` : "<span>Waiting for scan.</span>"}
               </div>
-              <p class="feedback ${state.activity2.feedbackBad ? "bad" : ""}" aria-live="polite">${state.activity2.feedback || "Tap Scan first."}</p>
+              <div class="scan-read" style="margin-top: 14px;">
+                ${state.activity2.solved ? `Scanner found ${item.name}.` : "Tap Scan to start."}
+              </div>
             </div>
           </div>
 
           <div class="button-row" style="margin-top: 18px;">
-            <button class="btn-secondary" data-action="next" data-screen="price" ${!state.activity2.solved ? "disabled" : ""}>Next</button>
-          </div>
-        </section>
-      `;
-    }
-
-    function renderPrice() {
-      const item = products[0];
-      const prices = priceNumbers;
-
-      return `
-        <section class="panel">
-          <h2 class="section-title">Activity 3: Find the price</h2>
-          <p class="section-note">Choose the right price for <strong>${item.name}</strong>.</p>
-
-          <div class="grid-2">
-            <div class="product-card">
-              <h3>${item.name}</h3>
-              <p class="barcode">Barcode: ${item.barcode}</p>
-              <p class="scan-read">The till found the product.</p>
-            </div>
-
-            <div class="product-card">
-              <h3>Choose the price</h3>
-              <div class="choices">
-                ${prices.map((price) => `
-                  <button
-                    class="btn-option ${state.activity3.solved ? (price === item.price ? "correct" : "") : ""}"
-                    data-action="choose-price"
-                    data-value="${price}"
-                    ${state.activity3.solved ? "disabled" : ""}
-                  >
-                    ${price} baht
-                  </button>
-                `).join("")}
-              </div>
-              <p class="feedback ${state.activity3.feedbackBad ? "bad" : ""}" aria-live="polite">${state.activity3.feedback || "Tap a price."}</p>
-            </div>
-          </div>
-
-          <div class="button-row" style="margin-top: 18px;">
-            <button class="btn-secondary" data-action="next" data-screen="receipt" ${!state.activity3.solved ? "disabled" : ""}>Next</button>
+            <button class="btn-secondary" data-action="next" data-screen="receipt" ${!state.activity2.solved ? "disabled" : ""}>Next</button>
           </div>
         </section>
       `;
@@ -881,66 +1098,32 @@
 
     function renderReceipt() {
       const total = state.receipt.lines.reduce((sum, line) => sum + line.price, 0);
-      if (state.receipt.index >= receiptItems.length) {
-        return `
-          <section class="panel">
-            <h2 class="section-title">Activity 4: Build the receipt</h2>
-            <p class="section-note">Great work. The receipt is ready.</p>
-
-            <div class="receipt-wrap">
-              <div class="receipt-card">
-                <h3>Receipt</h3>
-                <ul class="receipt-list">
-                  ${state.receipt.lines.map((line) => `
-                    <li class="receipt-line">
-                      <span>${line.name}</span>
-                      <span>${line.price} baht</span>
-                    </li>
-                  `).join("")}
-                </ul>
-                <div class="total-box">Total: ${total} baht</div>
-              </div>
-              <div class="quiz-card">
-                <h3>Shop helper</h3>
-                <p class="big-text" style="margin-bottom: 0;">Computers help shops work quickly and accurately.</p>
-              </div>
-            </div>
-
-            <div class="button-row" style="margin-top: 18px;">
-              <button class="btn-secondary" data-action="next" data-screen="quiz">Next</button>
-            </div>
-          </section>
-        `;
-      }
-
-      const item = currentReceiptItem();
-      const options = products.map((choice) => `
-        <button
-          class="btn-option ${state.receipt.solvedFlags[state.receipt.index] ? (choice.name === item.name ? "correct" : "") : ""}"
-          data-action="choose-receipt-product"
-          data-value="${choice.name}"
-          ${state.receipt.solvedFlags[state.receipt.index] ? "disabled" : ""}
-        >
-          ${choice.name}
-        </button>
-      `).join("");
+      const allScanned = state.receipt.lines.length === state.receipt.items.length;
 
       return `
         <section class="panel">
-          <h2 class="section-title">Activity 4: Build the receipt</h2>
-          <p class="section-note">Scan 3 items. The till adds each one to the receipt.</p>
+          <h2 class="section-title">Activity 3: Build the receipt</h2>
+          <p class="section-note">Scan 3 items. The receipt updates after each scan.</p>
 
           <div class="receipt-wrap">
-            <div class="product-card">
-              <h3>Item ${state.receipt.index + 1} of ${receiptItems.length}</h3>
-              <p class="section-note" style="margin-bottom: 0;">Look at this barcode, then choose the matching product.</p>
-              <p class="barcode">Barcode: ${item.barcode}</p>
-              ${state.receipt.revealed ? `<div class="scan-read">Scanner reads: ${item.barcode}</div>` : ""}
-              <div class="button-row" style="margin-top: 16px;">
-                <button class="btn-primary" data-action="scan-receipt" ${state.receipt.revealed ? "disabled" : ""}>Scan</button>
-              </div>
-
-              <p class="feedback ${state.receipt.feedbackBad ? "bad" : ""}" aria-live="polite">${state.receipt.feedback || "Tap Scan first."}</p>
+            <div class="scan-stack">
+              ${state.receipt.items.map((item) => {
+                const scanned = Boolean(state.receipt.scanned[item.barcode]);
+                const scanning = Boolean(state.receipt.scanning[item.barcode]);
+                return `
+                  <div class="product-card scan-card ${scanned ? "card-disabled" : ""}">
+                    <div class="product-icon" aria-hidden="true">${item.icon}</div>
+                    <h3>${item.name}</h3>
+                    <p class="section-note" style="margin-bottom: 0;">Barcode: ${item.barcode}</p>
+                    <div class="button-row">
+                      <button class="btn-primary" data-action="scan-receipt-item" data-barcode="${item.barcode}" ${scanned || scanning ? "disabled" : ""}>
+                        ${scanning ? "Beep..." : scanned ? "Done" : "Scan"}
+                      </button>
+                    </div>
+                    ${scanned ? `<div class="scan-read">Added to receipt: ${item.price} baht</div>` : ""}
+                  </div>
+                `;
+              }).join("")}
             </div>
 
             <div class="receipt-card">
@@ -948,24 +1131,84 @@
               <ul class="receipt-list">
                 ${state.receipt.lines.map((line) => `
                   <li class="receipt-line">
-                    <span>${line.name}</span>
+                    <span>${line.icon} ${line.name}</span>
                     <span>${line.price} baht</span>
                   </li>
                 `).join("")}
               </ul>
               <div class="total-box">Total: ${total} baht</div>
+              <div class="receipt-summary">${allScanned ? "Great! The receipt is complete." : "Scan all 3 items to finish."}</div>
             </div>
           </div>
 
-          <div class="choices" style="margin-top: 18px;">
-            ${options}
+          <div class="button-row" style="margin-top: 18px;">
+            <button class="btn-secondary" data-action="next" data-screen="match" ${!allScanned ? "disabled" : ""}>Next</button>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderMatchBarcode() {
+      const matchedCount = Object.keys(state.match.matched).length;
+      const allMatched = matchedCount === state.match.products.length;
+
+      return `
+        <section class="panel">
+          <h2 class="section-title">Activity 4: Match the barcode</h2>
+          <p class="section-note">Click a product and then click the matching barcode.</p>
+          <p class="match-pill">${matchedCount}/${state.match.products.length} matches</p>
+
+          <div class="match-board">
+            <div class="match-list">
+              ${state.match.products.map((product) => {
+                const matched = Boolean(state.match.matched[product.barcode]);
+                const selected = state.match.selectedProduct === product.barcode;
+                return `
+                  <button
+                    class="match-card ${matched ? "match-complete" : ""} ${selected ? "match-selected" : ""}"
+                    data-action="pick-product"
+                    data-barcode="${product.barcode}"
+                    ${matched ? "disabled" : ""}
+                  >
+                    <p class="match-label">${matched ? "Matched" : "Product"}</p>
+                    <div class="product-icon" aria-hidden="true">${product.icon}</div>
+                    <h3 style="margin: 0;">${product.name}</h3>
+                    <p class="match-label">${matched ? "Great!" : "Pick the barcode"}</p>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            <div class="barcode-list">
+              ${state.match.barcodes.map((barcode) => {
+                const matched = Boolean(state.match.matched[barcode]);
+                const selected = state.match.selectedBarcode === barcode;
+                return `
+                  <button
+                    class="barcode-card ${matched ? "match-complete" : ""} ${selected ? "match-selected" : ""}"
+                    data-action="pick-barcode"
+                    data-barcode="${barcode}"
+                    ${matched ? "disabled" : ""}
+                  >
+                    <small>${matched ? "Matched" : "Barcode"}</small>
+                    <div style="font-size: 1.9rem; line-height: 1.2;">${barcode}</div>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+          </div>
+
+          <p class="feedback ${state.match.feedbackBad ? "bad" : ""}" aria-live="polite">${state.match.feedback}</p>
+
+          <div class="button-row" style="margin-top: 18px;">
+            <button class="btn-secondary" data-action="next" data-screen="quiz" ${!allMatched ? "disabled" : ""}>Next</button>
           </div>
         </section>
       `;
     }
 
     function renderQuiz() {
-      if (state.quiz.index >= quizQuestions.length) {
+      if (state.quiz.index >= state.quiz.order.length) {
         state.screen = "final";
         render();
         return "";
@@ -979,7 +1222,7 @@
           <p class="section-note">Choose the best answer. You can try again if you need to.</p>
 
           <div class="quiz-card">
-            <p class="question-number">Question ${state.quiz.index + 1} of ${quizQuestions.length}</p>
+            <p class="question-number">Question ${state.quiz.index + 1} of ${state.quiz.order.length}</p>
             <p class="quiz-question">${question.question}</p>
             <div class="choices">
               ${question.options.map((option, index) => `
@@ -993,14 +1236,14 @@
                 </button>
               `).join("")}
             </div>
-            <p class="feedback ${state.quiz.feedbackBad ? "bad" : ""}" aria-live="polite">${state.quiz.feedback || "Pick one answer."}</p>
+            <p class="feedback ${state.quiz.feedbackBad ? "bad" : ""}" aria-live="polite">${state.quiz.feedback}</p>
           </div>
         </section>
       `;
     }
 
     function renderFinal() {
-      const allStars = state.stars === totalStars;
+      const allStars = state.stars === TOTAL_STARS;
       if (!state.confettiLaunched) {
         launchConfetti();
         state.confettiLaunched = true;
@@ -1012,7 +1255,7 @@
           <h2 class="final-title">🏅 Supermarket IT Expert</h2>
           <div class="final-stars">
             <span>⭐</span>
-            <span>${state.stars}/${totalStars} stars earned</span>
+            <span>${state.stars}/${TOTAL_STARS} stars earned</span>
           </div>
           <p class="final-subtitle">You showed how IT devices work together to help a shop.</p>
           ${allStars ? `<p class="final-subtitle" style="font-weight: 800; color: var(--green-dark);">🌟 Master Supermarket IT Expert 🌟</p>` : ""}
@@ -1041,13 +1284,13 @@
         return;
       }
 
-      if (state.screen === "price") {
-        app.innerHTML = renderPrice();
+      if (state.screen === "receipt") {
+        app.innerHTML = renderReceipt();
         return;
       }
 
-      if (state.screen === "receipt") {
-        app.innerHTML = renderReceipt();
+      if (state.screen === "match") {
+        app.innerHTML = renderMatchBarcode();
         return;
       }
 
@@ -1096,83 +1339,97 @@
       }
 
       if (action === "scan-item") {
-        state.activity2.revealed = true;
-        state.activity2.feedback = "Now choose the product.";
+        if (state.activity2.scanning || state.activity2.solved) return;
+        state.activity2.scanning = true;
+        state.activity2.feedback = "Beep... scanning...";
         state.activity2.feedbackBad = false;
+        playBeep();
         render();
-        return;
-      }
 
-      if (action === "choose-product") {
-        if (!state.activity2.revealed || state.activity2.solved) return;
-        const choice = button.dataset.value;
-        const answer = products[0].name;
-        if (choice === answer) {
-          state.activity2.feedback = "Yes! The scanner found the product.";
-          state.activity2.feedbackBad = false;
+        schedule(() => {
+          state.activity2.scanning = false;
           awardStar(state.activity2, "solved");
-        } else {
-          state.activity2.feedback = "Try again.";
-          state.activity2.feedbackBad = true;
-        }
-        render();
+          state.activity2.feedback = `${state.activity2.item.name} found. ${state.activity2.item.price} baht.`;
+          state.activity2.feedbackBad = false;
+          render();
+        }, 650);
         return;
       }
 
-      if (action === "choose-price") {
-        if (state.activity3.solved) return;
-        const choice = Number(button.dataset.value);
-        const answer = products[0].price;
-        if (choice === answer) {
-          state.activity3.feedback = "Yes! The till found the price.";
-          state.activity3.feedbackBad = false;
-          awardStar(state.activity3, "solved");
-        } else {
-          state.activity3.feedback = "Try again.";
-          state.activity3.feedbackBad = true;
-        }
-        render();
-        return;
-      }
-
-      if (action === "scan-receipt") {
-        state.receipt.revealed = true;
-        state.receipt.feedback = "Now choose the product.";
+      if (action === "scan-receipt-item") {
+        const barcode = button.dataset.barcode;
+        const item = state.receipt.items.find((entry) => entry.barcode === barcode);
+        if (!item || state.receipt.scanned[barcode] || state.receipt.scanning[barcode]) return;
+        state.receipt.scanning[barcode] = true;
+        state.receipt.feedback = `Beep... scanning ${item.name}.`;
         state.receipt.feedbackBad = false;
+        playBeep();
+        render();
+
+        schedule(() => {
+          state.receipt.scanning[barcode] = false;
+          state.receipt.lines.push({ name: item.name, price: item.price, icon: item.icon, barcode: item.barcode });
+          awardStar(state.receipt.scanned, barcode);
+          state.receipt.feedback = `${item.name} added to the receipt.`;
+          state.receipt.feedbackBad = false;
+          render();
+        }, 650);
+        return;
+      }
+
+      if (action === "pick-product") {
+        const barcode = button.dataset.barcode;
+        if (state.match.matched[barcode]) return;
+        if (state.match.selectedBarcode) {
+          if (state.match.selectedBarcode === barcode) {
+            const product = findProductByBarcode(barcode);
+            state.match.selectedProduct = "";
+            state.match.selectedBarcode = "";
+            playMatchSound("correct");
+            awardStar(state.match.matched, barcode);
+            state.match.feedback = `Great match: ${product.name}.`;
+            state.match.feedbackBad = false;
+          } else {
+            playMatchSound("wrong");
+            state.match.feedback = "Not quite. Try again.";
+            state.match.feedbackBad = true;
+            state.match.selectedProduct = "";
+            state.match.selectedBarcode = "";
+          }
+        } else {
+          state.match.selectedProduct = barcode;
+          state.match.feedback = "Now pick the barcode.";
+          state.match.feedbackBad = false;
+        }
         render();
         return;
       }
 
-      if (action === "choose-receipt-product") {
-        const index = state.receipt.index;
-        if (state.receipt.solvedFlags[index] || state.receipt.locked) return;
-        const choice = button.dataset.value;
-        const item = products[index];
-
-        if (choice === item.name) {
-          state.receipt.locked = true;
-          state.receipt.feedback = "Great! The item is on the receipt.";
-          state.receipt.feedbackBad = false;
-          state.receipt.lines.push({ name: item.name, price: item.price });
-          awardStar(state.receipt.solvedFlags, index);
-          render();
-
-          schedule(() => {
-            state.receipt.locked = false;
-            state.receipt.revealed = false;
-            state.receipt.feedback = "";
-            state.receipt.feedbackBad = false;
-            state.receipt.index += 1;
-            if (state.receipt.index >= receiptItems.length) {
-              state.screen = "receipt";
-            }
-            render();
-          }, 850);
+      if (action === "pick-barcode") {
+        const barcode = button.dataset.barcode;
+        if (state.match.matched[barcode]) return;
+        if (state.match.selectedProduct) {
+          if (state.match.selectedProduct === barcode) {
+            const product = findProductByBarcode(barcode);
+            state.match.selectedProduct = "";
+            state.match.selectedBarcode = "";
+            playMatchSound("correct");
+            awardStar(state.match.matched, barcode);
+            state.match.feedback = `Great match: ${product.name}.`;
+            state.match.feedbackBad = false;
+          } else {
+            playMatchSound("wrong");
+            state.match.feedback = "Not quite. Try again.";
+            state.match.feedbackBad = true;
+            state.match.selectedProduct = "";
+            state.match.selectedBarcode = "";
+          }
         } else {
-          state.receipt.feedback = "Try again.";
-          state.receipt.feedbackBad = true;
-          render();
+          state.match.selectedBarcode = barcode;
+          state.match.feedback = "Now pick the product.";
+          state.match.feedbackBad = false;
         }
+        render();
         return;
       }
 
@@ -1180,7 +1437,7 @@
         const index = state.quiz.index;
         if (state.quiz.solvedFlags[index] || state.quiz.locked) return;
         const choice = Number(button.dataset.value);
-        const item = quizQuestions[index];
+        const item = currentQuizItem();
 
         if (choice === item.answer) {
           state.quiz.locked = true;
@@ -1194,7 +1451,7 @@
             state.quiz.feedback = "";
             state.quiz.feedbackBad = false;
             state.quiz.index += 1;
-            if (state.quiz.index >= quizQuestions.length) {
+            if (state.quiz.index >= state.quiz.order.length) {
               state.screen = "final";
             }
             render();
@@ -1207,9 +1464,10 @@
       }
     });
 
-    // Show the first screen.
+    createRunState();
     updateStars();
     render();
   </script>
 </body>
 </html>
+
