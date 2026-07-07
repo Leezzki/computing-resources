@@ -2575,21 +2575,15 @@ app.addEventListener("click", (event) => {
   }
 
   if (target.dataset.action === "start-year1") {
+    invalidatePendingTransitions();
+    state = getFreshState();
     state.screen = "identify";
     render();
   }
 
   if (target.dataset.action === "start-year2") {
-    if (currentLessonKey === "year2Lesson5") {
-      state.year2ActivityIndex = 0;
-      state.year2SafetySceneFound = new Set();
-      state.year2SafetyQuestionIndex = 0;
-      state.year2SafetyNextIndex = 0;
-      state.year2SafetyRuleIndex = 0;
-      state.year2SafetyTestIndex = 0;
-      state.year2SafetyTestScore = 0;
-    }
-
+    invalidatePendingTransitions();
+    state = getFreshState();
     state.screen = "activity";
     render();
   }
