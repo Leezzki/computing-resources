@@ -282,12 +282,11 @@ const LESSON_SETS = {
       }
     ],
     userItems: [
-      { name: "Printer", icon: "🖨️", correct: "Office", choices: ["Teacher", "Student", "Office", "Everyone"], explanation: "The office often uses a printer." },
+      { name: "Printer", icon: "🖨️", correct: "Teacher & Office", choices: ["Teacher & Office", "Student", "Everyone"], explanation: "Teachers and the office use a printer." },
       { name: "Visualiser", icon: "🔍", correct: "Teacher", choices: ["Teacher", "Student", "Office", "Everyone"], explanation: "Teachers use a visualiser to show work to the class." },
-      { name: "Laptop", icon: "💻", correct: "Student", choices: ["Teacher", "Student", "Office", "Everyone"], explanation: "Students use laptops to learn and make work." },
+      { name: "Laptop", icon: "💻", correct: "Everyone", choices: ["Everyone", "Teacher", "Student", "Office"], explanation: "Everyone can use a laptop to learn and make work." },
       { name: "Interactive Whiteboard", icon: "⬜", correct: "Everyone", choices: ["Teacher", "Student", "Office", "Everyone"], explanation: "Everyone can use the interactive whiteboard during a lesson." },
-      { name: "Photocopier", icon: "📠", correct: "Office", choices: ["Teacher", "Student", "Office", "Everyone"], explanation: "The office uses a photocopier for many copies." },
-      { name: "School Phone", icon: "☎️", correct: "Office", choices: ["Teacher", "Student", "Office", "Everyone"], explanation: "The office uses the school phone to call people." }
+      { name: "School Phone", icon: "☎️", correct: "Teacher & Office", choices: ["Teacher & Office", "Student", "Everyone"], explanation: "Teachers and the office use the school phone." }
     ],
     detectiveItems: [
       {
