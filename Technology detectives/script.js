@@ -11,6 +11,20 @@ const SCHOOL_RULES = [
 const FEEDBACK_PAUSE_MS = 1800;
 const LEVEL_ADVANCE_PAUSE_MS = 2400;
 
+let transitionToken = 0;
+
+function invalidatePendingTransitions() {
+  transitionToken += 1;
+}
+
+function scheduleTransition(callback, delay) {
+  const token = transitionToken;
+  window.setTimeout(() => {
+    if (token !== transitionToken) return;
+    callback();
+  }, delay);
+}
+
 const LESSON_SETS = {
   year1: {
     yearLabel: "Year 1",
@@ -1946,6 +1960,8 @@ function awardStar(group, key) {
 }
 
 function selectMission(key) {
+  invalidatePendingTransitions();
+
   if (key === "year2") {
     currentLessonKey = "";
     lesson = null;
@@ -1963,6 +1979,8 @@ function selectMission(key) {
 }
 
 function selectYear2Lesson(key) {
+  invalidatePendingTransitions();
+
   currentLessonKey = key;
   lesson = LESSON_SETS[key];
   state = getFreshState();
@@ -1979,7 +1997,7 @@ function handleIdentify(isTechnologyChoice) {
       ? "Yes! It was made by people to help us."
       : "Yes! It is not made by people to help us.";
     showFeedback(message, "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.identifyIndex += 1;
       state.screen = state.identifyIndex >= lesson.identifyItems.length ? "help" : "identify";
       render();
@@ -1995,7 +2013,7 @@ function handleHelp(choice) {
   if (choice === item.correct) {
     awardStar("help", state.helpIndex);
     showFeedback("Yes! That helps us.", "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.helpIndex += 1;
       state.screen = state.helpIndex >= lesson.helpItems.length ? "hunt" : "help";
       render();
@@ -2047,7 +2065,7 @@ function checkHuntAnswers() {
     showFeedback("Good start. Find more things made by people to help us.", "try");
   } else {
     showFeedback("Great detective work!", "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.screen = "final";
       render();
     }, LEVEL_ADVANCE_PAUSE_MS);
@@ -2134,7 +2152,7 @@ function handleQuick(category) {
   if (item.category === category) {
     awardStar("quick", state.quickIndex);
     showFeedback(`Correct! ${item.explanation}`, "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.quickIndex += 1;
       state.screen = state.quickIndex >= lesson.quickItems.length ? "final" : "activity";
       render();
@@ -2158,7 +2176,7 @@ function handleLesson2Find(index) {
 
     const totalTechnology = lesson.findItems.filter((entry) => entry.isTechnology).length;
     if (state.year2FindFound.size >= totalTechnology) {
-      window.setTimeout(() => {
+      scheduleTransition(() => {
         advanceYear2Activity();
       }, LEVEL_ADVANCE_PAUSE_MS);
     }
@@ -2175,7 +2193,7 @@ function handleLesson2User(choice) {
     awardStar("users", index);
     showFeedback(item.explanation, "good");
     state.year2UserAnswers[index] = choice;
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       const nextIndex = index + 1;
       state.year2UserAnswers.__index = nextIndex;
 
@@ -2209,7 +2227,7 @@ function handleLesson2Detective(choice) {
   if (choice === item.helpAnswer) {
     awardStar("detective", state.year2DetectiveIndex);
     showFeedback(item.explanation, "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.year2DetectiveIndex += 1;
       state.year2DetectivePhase = state.year2DetectiveIndex >= lesson.detectiveItems.length ? "done" : "judge";
       if (state.year2DetectivePhase === "done") {
@@ -2237,7 +2255,7 @@ function handleLesson3Place(placeKey) {
   showFeedback(`Great choice! ${place.name}.`, "good");
 
   state.year2PlaceAdvanceScheduled = true;
-  window.setTimeout(() => {
+  scheduleTransition(() => {
     advanceYear2Activity();
   }, LEVEL_ADVANCE_PAUSE_MS);
 }
@@ -2267,7 +2285,7 @@ function handleLesson3Find(index) {
   const total = workplace.items.filter((entry) => entry.isTechnology).length;
   if (state.year2PlaceFound.size >= total && !state.year2FindAdvanceScheduled) {
     state.year2FindAdvanceScheduled = true;
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.year2PlaceHelpIndex = 0;
       advanceYear2Activity();
     }, LEVEL_ADVANCE_PAUSE_MS);
@@ -2287,7 +2305,7 @@ function handleLesson3Help(choice) {
     awardStar("help3", key);
     showFeedback(item.explanation, "good");
     state.year2HelpAdvanceScheduled = true;
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.year2PlaceHelpIndex += 1;
       state.year2HelpAdvanceScheduled = false;
       if (state.year2PlaceHelpIndex >= workplace.helpItems.length) {
@@ -2315,7 +2333,7 @@ function handleLesson3Job(choice) {
     awardStar("job3", key);
     showFeedback(item.explanation, "good");
     state.year2JobAdvanceScheduled = true;
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.year2JobIndex += 1;
       state.year2JobAdvanceScheduled = false;
       if (state.year2JobIndex >= workplace.jobItems.length) {
@@ -2348,7 +2366,7 @@ function handleLesson5Spot(index) {
 
     const total = LESSON_SETS.year2Lesson5.scenes.filter((item) => item.unsafe).length;
     if (state.year2SafetySceneFound.size >= total) {
-      window.setTimeout(() => {
+      scheduleTransition(() => {
         state.year2SafetyQuestionIndex = 0;
         advanceYear2Activity();
       }, LEVEL_ADVANCE_PAUSE_MS);
@@ -2365,7 +2383,7 @@ function handleLesson5Safe(choice) {
   if (choice === item.answer) {
     awardStar("safetyCheck", state.year2SafetyQuestionIndex);
     showFeedback(item.explanation, "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.year2SafetyQuestionIndex += 1;
       if (state.year2SafetyQuestionIndex >= LESSON_SETS.year2Lesson5.safetyQuestions.length) {
         state.year2SafetyNextIndex = 0;
@@ -2386,7 +2404,7 @@ function handleLesson5Next(choice) {
   if (choice === item.answer) {
     awardStar("safetyNext", state.year2SafetyNextIndex);
     showFeedback(item.explanation, "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.year2SafetyNextIndex += 1;
       if (state.year2SafetyNextIndex >= LESSON_SETS.year2Lesson5.nextQuestions.length) {
         state.year2SafetyRuleIndex = 0;
@@ -2409,7 +2427,7 @@ function handleLesson5RuleDrop(index, key) {
   if (choice === item.answer) {
     awardStar("safetyRule", `${state.year2SafetyRuleIndex}-${index}`);
     showFeedback(item.explanation, "good");
-    window.setTimeout(() => {
+    scheduleTransition(() => {
       state.year2SafetyRuleIndex += 1;
       if (state.year2SafetyRuleIndex >= LESSON_SETS.year2Lesson5.ruleSentences.length) {
         advanceYear2Activity();
@@ -2438,7 +2456,7 @@ function handleLesson5Test(choice) {
     ? LEVEL_ADVANCE_PAUSE_MS
     : FEEDBACK_PAUSE_MS;
 
-  window.setTimeout(() => {
+  scheduleTransition(() => {
     state.year2SafetyTestIndex += 1;
     if (state.year2SafetyTestIndex >= state.year2SafetyTestQuestions.length) {
       if (state.year2SafetyTestScore >= 8) {
@@ -2536,6 +2554,8 @@ function advanceYear2Activity() {
 }
 
 function resetGame() {
+  invalidatePendingTransitions();
+
   currentLessonKey = "";
   lesson = null;
   state = getFreshState();
