@@ -114,6 +114,12 @@ const LESSON_SETS = {
       "I can explain why something is Information Technology.",
       "I can identify examples that are computers."
     ],
+    activities: [
+      { key: "sort", type: "sort", title: "Sort the IT", prompt: "Drag each item into the right box." },
+      { key: "locations", type: "locations", title: "Where is it used?", prompt: "Drop each item into the right place." },
+      { key: "purposes", type: "purposes", title: "What does it do?", prompt: "Match each item to its job." },
+      { key: "quick", type: "quick", title: "Quick Quiz", prompt: "Choose the best answer." }
+    ],
     sortCategories: [
       { key: "computer", title: "🖥 Computer" },
       { key: "it", title: "💻 Information Technology" },
